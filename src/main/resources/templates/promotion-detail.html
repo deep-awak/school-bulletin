@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${promotion.name}">Promotion</title>
+</head>
+<body>
+  <p><a href="/promotions">&larr; Retour aux promotions</a></p>
+  <h1 th:text="${promotion.name}">Promotion</h1>
+
+  <p>
+    <a th:href="@{'/promotions/' + ${promotion.id} + '/export'}">
+      Télécharger le fichier Excel des diplômés
+    </a>
+  </p>
+
+  <h2>Étudiants</h2>
+  <table border="1" cellpadding="6">
+    <thead>
+      <tr>
+        <th>STD</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="student : ${students}">
+        <td th:text="${student.std}">STD</td>
+        <td th:text="${student.lastName}">Nom</td>
+        <td th:text="${student.firstName}">Prénom</td>
+        <td th:text="${student.email}">email</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
