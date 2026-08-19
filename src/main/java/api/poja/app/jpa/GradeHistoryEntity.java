@@ -4,10 +4,6 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import lombok.*;
 
-/**
- * Immutable audit trail entry for a grade modification. Every time a grade is changed, one row is
- * appended here; existing rows are never updated or deleted.
- */
 @Entity
 @Table(name = "grade_history")
 @NoArgsConstructor
@@ -24,7 +20,6 @@ public class GradeHistoryEntity {
   @JoinColumn(name = "grade_id", nullable = false)
   private GradeEntity grade;
 
-  /** Null for the very first history entry (initial grade creation). */
   private Double oldValue;
 
   @Column(nullable = false)
