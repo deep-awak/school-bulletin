@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Promotions - HEI</title>
+</head>
+<body>
+  <h1>Promotions</h1>
+  <table border="1" cellpadding="6">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Période</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="promo : ${promotions}">
+        <td th:text="${promo.name}">Promo</td>
+        <td th:text="${promo.startYear} + ' - ' + ${promo.endYear}">2023-2026</td>
+        <td>
+          <a th:href="@{'/promotions/' + ${promo.id}}">Voir les diplômés</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
