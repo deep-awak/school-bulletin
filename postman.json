@@ -1,29 +1,91 @@
 {
   "info": {
     "name": "School Bulletin API",
-    "description": "Matches api.yaml and the real controllers in src/main/java/api/poja/app/endpoint. Auth is the X-User-Id header (no JWT/login flow exists in this project - the 'token' variable below is kept unused for forward compatibility only, see README).",
+    "description": "API de gestion des bulletins scolaires pour HEI. Authentification via JWT Bearer Token. IDs : Student (STD2XXXX), Teacher (TCH2XXX), Group (J1, K3...), autres UUID.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:8080" },
-    { "key": "token", "value": "" },
-    { "key": "userId", "value": "1", "description": "Value sent as X-User-Id; set it to an ADMIN app_user id to run the admin-only requests" },
-    { "key": "studentId", "value": "" },
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "adminEmail", "value": "admin@hei.mg" },
+    { "key": "adminPassword", "value": "Admin123!" },
+    { "key": "promotionId", "value": "" },
+    { "key": "groupId", "value": "" },
     { "key": "teacherId", "value": "" },
     { "key": "courseId", "value": "" },
-    { "key": "groupId", "value": "" },
-    { "key": "promotionId", "value": "" },
+    { "key": "studentId", "value": "" },
     { "key": "gradeId", "value": "" }
   ],
   "item": [
     {
-      "name": "Promotions",
+      "name": "🔐 Authentication",
       "item": [
         {
-          "name": "Create promotion",
+          "name": "Login - Obtenir un token JWT",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains token\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.token).to.be.a('string');",
+                  "    pm.expect(jsonData.role).to.be.a('string');",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📚 Promotions",
+      "item": [
+        {
+          "name": "Créer une promotion (ADMIN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has id (UUID)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.be.a('string');",
+                  "    pm.collectionVariables.set('promotionId', jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
             "url": "{{baseUrl}}/api/promotions",
             "body": {
               "mode": "raw",
@@ -32,56 +94,117 @@
           }
         },
         {
-          "name": "List promotions",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/promotions" }
+          "name": "Lister toutes les promotions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/promotions"
+          }
         },
         {
-          "name": "Get promotion by id",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/promotions/{{promotionId}}" }
+          "name": "Récupérer une promotion par ID (UUID)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/promotions/{{promotionId}}"
+          }
         }
       ]
     },
     {
-      "name": "Groups",
+      "name": "👥 Groups",
       "item": [
         {
-          "name": "Create group",
+          "name": "Créer un groupe (ADMIN) - ID auto-généré (J1, K3...)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has id (String like J1)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.be.a('string');",
+                  "    pm.collectionVariables.set('groupId', jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
             "url": "{{baseUrl}}/api/groups",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"G1\",\n  \"promotionId\": {{promotionId}}\n}"
+              "raw": "{\n  \"name\": \"Groupe A1\",\n  \"promotionId\": \"{{promotionId}}\"\n}"
             }
           }
         },
         {
-          "name": "List groups of a promotion",
+          "name": "Lister les groupes d'une promotion",
           "request": {
             "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/groups?promotionId={{promotionId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "groups"],
-              "query": [{ "key": "promotionId", "value": "{{promotionId}}" }]
-            }
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/groups?promotionId={{promotionId}}"
           }
         },
         {
-          "name": "Get group by id",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/groups/{{groupId}}" }
+          "name": "Récupérer un groupe par ID (String)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/groups/{{groupId}}"
+          }
         }
       ]
     },
     {
-      "name": "Teachers",
+      "name": "👨‍🏫 Teachers",
       "item": [
         {
-          "name": "Create teacher",
+          "name": "Créer un enseignant (ADMIN) - ID auto-généré (TCH2XXX)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has id (TCH2XXXX)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.be.a('string');",
+                  "    pm.expect(jsonData.id).to.match(/^TCH\\d{5,6}$/);",
+                  "    pm.collectionVariables.set('teacherId', jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
             "url": "{{baseUrl}}/api/teachers",
             "body": {
               "mode": "raw",
@@ -90,23 +213,57 @@
           }
         },
         {
-          "name": "List teachers",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/teachers" }
+          "name": "Lister tous les enseignants",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/teachers"
+          }
         },
         {
-          "name": "Get teacher by id",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/teachers/{{teacherId}}" }
+          "name": "Récupérer un enseignant par ID (String)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/teachers/{{teacherId}}"
+          }
         }
       ]
     },
     {
-      "name": "Courses",
+      "name": "📖 Courses",
       "item": [
         {
-          "name": "Create course",
+          "name": "Créer un cours (ADMIN) - ID UUID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has id (UUID)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.be.a('string');",
+                  "    pm.collectionVariables.set('courseId', jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
             "url": "{{baseUrl}}/api/courses",
             "body": {
               "mode": "raw",
@@ -115,216 +272,289 @@
           }
         },
         {
-          "name": "List courses",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/courses" }
-        },
-        {
-          "name": "Get course by id",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/courses/{{courseId}}" }
-        },
-        {
-          "name": "Assign teacher to course/group (CourseTeaching)",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{baseUrl}}/api/courses/teaching-assignments",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"courseId\": {{courseId}},\n  \"teacherId\": {{teacherId}},\n  \"groupId\": {{groupId}},\n  \"academicYear\": \"2025-2026\"\n}"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Students",
-      "item": [
-        {
-          "name": "Create student",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{baseUrl}}/api/students",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"std\": \"HEI-2023-014\",\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Rakoto\",\n  \"email\": \"jean.rakoto@hei.mg\",\n  \"promotionId\": {{promotionId}},\n  \"groupId\": {{groupId}}\n}"
-            }
-          }
-        },
-        {
-          "name": "List students of a promotion",
+          "name": "Lister tous les cours",
           "request": {
             "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/students?promotionId={{promotionId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "students"],
-              "query": [{ "key": "promotionId", "value": "{{promotionId}}" }]
-            }
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/courses"
           }
         },
         {
-          "name": "Get student by id",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/students/{{studentId}}" }
-        },
-        {
-          "name": "Reassign student to a new group",
+          "name": "Récupérer un cours par ID (UUID)",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": "{{baseUrl}}/api/students/group-assignments",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"studentId\": {{studentId}},\n  \"groupId\": {{groupId}},\n  \"startDate\": \"2025-09-01\"\n}"
-            }
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/courses/{{courseId}}"
           }
         },
         {
-          "name": "Student group assignment history",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/students/{{studentId}}/group-history" }
-        }
-      ]
-    },
-    {
-      "name": "Grades",
-      "item": [
-        {
-          "name": "Create grade (TEACHER of the course, or ADMIN)",
+          "name": "Affecter enseignant à cours/groupe (ADMIN)",
           "request": {
             "method": "POST",
             "header": [
               { "key": "Content-Type", "value": "application/json" },
-              { "key": "X-User-Id", "value": "{{userId}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/courses/teaching-assignments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"{{courseId}}\",\n  \"teacherId\": \"{{teacherId}}\",\n  \"groupId\": \"{{groupId}}\",\n  \"academicYear\": \"2025-2026\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👨‍🎓 Students",
+      "item": [
+        {
+          "name": "Créer un étudiant (ADMIN) - ID auto-généré (STD2XXXX)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has id (STD2XXXX)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.be.a('string');",
+                  "    pm.expect(jsonData.id).to.match(/^STD\\d{7}$/);",
+                  "    pm.collectionVariables.set('studentId', jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/students",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"std\": \"HEI-2023-014\",\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Rakoto\",\n  \"email\": \"jean.rakoto@hei.mg\",\n  \"promotionId\": \"{{promotionId}}\",\n  \"groupId\": \"{{groupId}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Lister les étudiants d'une promotion",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/students?promotionId={{promotionId}}"
+          }
+        },
+        {
+          "name": "Récupérer un étudiant par ID (String)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/students/{{studentId}}"
+          }
+        },
+        {
+          "name": "Réaffecter étudiant à un nouveau groupe",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/students/group-assignments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"groupId\": \"{{groupId}}\",\n  \"startDate\": \"2025-09-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Historique des groupes d'un étudiant",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/students/{{studentId}}/group-history"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Grades",
+      "item": [
+        {
+          "name": "Ajouter une note (TEACHER ou ADMIN) - ID UUID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has id (UUID)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.be.a('string');",
+                  "    pm.collectionVariables.set('gradeId', jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/grades",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"studentId\": {{studentId}},\n  \"courseId\": {{courseId}},\n  \"academicYear\": \"2025-2026\",\n  \"value\": 14.5\n}"
+              "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"courseId\": \"{{courseId}}\",\n  \"academicYear\": \"2025-2026\",\n  \"value\": 14.5\n}"
             }
           }
         },
         {
-          "name": "List a student's grades (self, or TEACHER/ADMIN)",
+          "name": "Lister les notes d'un étudiant",
           "request": {
             "method": "GET",
-            "header": [{ "key": "X-User-Id", "value": "{{userId}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/api/grades?studentId={{studentId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "grades"],
-              "query": [{ "key": "studentId", "value": "{{studentId}}" }]
-            }
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/grades?studentId={{studentId}}"
           }
         },
         {
-          "name": "Update grade (mandatory reason, kept in history)",
+          "name": "Modifier une note (TEACHER ou ADMIN) - avec raison obligatoire",
           "request": {
             "method": "PATCH",
             "header": [
               { "key": "Content-Type", "value": "application/json" },
-              { "key": "X-User-Id", "value": "{{userId}}" }
+              { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": "{{baseUrl}}/api/grades/{{gradeId}}",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"value\": 16,\n  \"reason\": \"Erreur de saisie corrigée après réclamation de l'étudiant\"\n}"
+              "raw": "{\n  \"value\": 16.0,\n  \"reason\": \"Correction après réclamation de l'étudiant\"\n}"
             }
           }
         },
         {
-          "name": "Grade modification history",
+          "name": "Historique des modifications d'une note",
           "request": {
             "method": "GET",
-            "header": [{ "key": "X-User-Id", "value": "{{userId}}" }],
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
             "url": "{{baseUrl}}/api/grades/{{gradeId}}/history"
           }
         }
       ]
     },
     {
-      "name": "Transcripts",
+      "name": "🎓 Graduates",
       "item": [
         {
-          "name": "Generate transcript PDF + upload to S3 (returns URL)",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "X-User-Id", "value": "{{userId}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/api/transcripts/generate?studentId={{studentId}}&academicYear=2025-2026",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "transcripts", "generate"],
-              "query": [
-                { "key": "studentId", "value": "{{studentId}}" },
-                { "key": "academicYear", "value": "2025-2026" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Send transcript by email (async via POJA)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "X-User-Id", "value": "{{userId}}" }
-            ],
-            "url": "{{baseUrl}}/api/transcripts/send",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"studentId\": {{studentId}},\n  \"academicYear\": \"2025-2026\"\n}"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Graduates / Admin",
-      "item": [
-        {
-          "name": "Promotion ranking (ADMIN)",
+          "name": "Classement des diplômés d'une promotion (ADMIN)",
           "request": {
             "method": "GET",
-            "header": [{ "key": "X-User-Id", "value": "{{userId}}" }],
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
             "url": "{{baseUrl}}/api/promotions/{{promotionId}}/graduates"
           }
         },
         {
-          "name": "Excel export of a promotion's graduates (ADMIN, via API)",
+          "name": "Export Excel du classement (ADMIN)",
           "request": {
             "method": "GET",
-            "header": [{ "key": "X-User-Id", "value": "{{userId}}" }],
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
             "url": "{{baseUrl}}/api/promotions/{{promotionId}}/graduates/export"
           }
         },
         {
-          "name": "Results across several promotions (ADMIN, e.g. 3-year view)",
+          "name": "Classement multi-promotions (ADMIN) - 3 ans",
           "request": {
             "method": "GET",
-            "header": [{ "key": "X-User-Id", "value": "{{userId}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/api/promotions/{{promotionId}}/graduates/results?promotionIds={{promotionId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "promotions", "{{promotionId}}", "graduates", "results"],
-              "query": [{ "key": "promotionIds", "value": "{{promotionId}}" }]
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/promotions/{{promotionId}}/graduates/results?promotionIds={{promotionId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📄 Transcripts",
+      "item": [
+        {
+          "name": "Générer un relevé PDF (retourne URL S3)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/transcripts/generate?studentId={{studentId}}&academicYear=2025-2026"
+          }
+        },
+        {
+          "name": "Envoyer un relevé par email (asynchrone POJA)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/transcripts/send",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"academicYear\": \"2025-2026\"\n}"
             }
           }
         }
       ]
     },
     {
-      "name": "Thymeleaf (no auth)",
+      "name": "🌐 Thymeleaf (sans authentification)",
       "item": [
         {
-          "name": "Promotions list page",
-          "request": { "method": "GET", "url": "{{baseUrl}}/promotions" }
+          "name": "Page listant les promotions",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/promotions"
+          }
         },
         {
-          "name": "Promotion detail page",
-          "request": { "method": "GET", "url": "{{baseUrl}}/promotions/{{promotionId}}" }
+          "name": "Page détail d'une promotion",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/promotions/{{promotionId}}"
+          }
         },
         {
-          "name": "Excel export from the Thymeleaf page",
-          "request": { "method": "GET", "url": "{{baseUrl}}/promotions/{{promotionId}}/export" }
+          "name": "Export Excel depuis Thymeleaf (sans auth)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/promotions/{{promotionId}}/export"
+          }
         }
       ]
     }
