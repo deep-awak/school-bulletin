@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -15,16 +17,15 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.stereotype.Component;
 
-/** Renders a student's transcript (relevé de notes) as a simple, readable one-page PDF. */
 @Component
 public class TranscriptPdfGenerator {
 
   public File generate(
-          Student student,
-          Promotion promotion,
-          String academicYear,
-          List<Grade> grades,
-          Map<Long, Course> coursesById)
+		  Student student,
+		  Promotion promotion,
+		  String academicYear,
+		  List<Grade> grades,
+		  Map<UUID, Course> coursesById)
           throws IOException {
     File file = File.createTempFile("transcript-" + student.getStd() + "-", ".pdf");
 
@@ -33,7 +34,6 @@ public class TranscriptPdfGenerator {
       document.addPage(page);
 
       try (PDPageContentStream content = new PDPageContentStream(document, page)) {
-        // Utilisation directe des constantes PDType1Font
         PDType1Font titleFont = PDType1Font.HELVETICA_BOLD;
         PDType1Font bodyFont = PDType1Font.HELVETICA;
         float y = 780;
