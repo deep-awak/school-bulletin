@@ -1,8 +1,10 @@
 package api.poja.app.jpa;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 import lombok.*;
+
+import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "grade_history")
@@ -13,8 +15,8 @@ import lombok.*;
 @Setter
 public class GradeHistoryEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "grade_id", nullable = false)
@@ -29,7 +31,7 @@ public class GradeHistoryEntity {
   private String reason;
 
   @Column(name = "author_user_id", nullable = false)
-  private Long authorUserId;
+  private UUID authorUserId;
 
   @Column(nullable = false)
   private Instant changedAt;
