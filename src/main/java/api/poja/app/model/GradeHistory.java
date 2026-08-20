@@ -1,7 +1,9 @@
 package api.poja.app.model;
 
-import java.time.Instant;
 import lombok.*;
+
+import java.time.Instant;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -9,11 +11,11 @@ import lombok.*;
 @Getter
 @Setter
 public class GradeHistory {
-  private Long id;
-  private Long gradeId;
+  private UUID id;
+  private UUID gradeId;
   private Double oldValue;
   private Double newValue;
   private String reason;
-  private Long authorUserId;
+  private UUID authorUserId;
   private Instant changedAt;
 }
