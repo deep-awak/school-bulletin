@@ -2,9 +2,9 @@ spring:
   application:
     name: school-bulletin
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/school_bulletin_db}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:Pa$$Na$$aIW0rd}
+    url: ${DB_URL:}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
   jpa:
     hibernate:
       # Flyway (below) owns the schema; Hibernate only validates it matches the entities.
@@ -21,8 +21,8 @@ spring:
 
 aws:
   eventBridge:
-    bus: ${AWS_EVENT_BUS:default}
+    bus: ${AWS_EVENT_BUS:}
   # BucketConf (existing template code, untouched) reads this exact key via
   # @Value("${aws.s3.bucket}") - it does NOT read aws.bucket.name.
   s3:
-    bucket: ${AWS_S3_BUCKET:school-bulletin-bucket}
+    bucket: ${AWS_S3_BUCKET:}
