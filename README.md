@@ -1,17 +1,13 @@
-# 🎓 School Bulletin — Gestion académique complète avec événements asynchrones
+# School Bulletin
 
 [![Java](https://img.shields.io/badge/Java-21-orange?style=flat-square)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green?style=flat-square)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-blue?style=flat-square)](https://www.postgresql.org/)
 [![AWS](https://img.shields.io/badge/AWS-SQS%20%7C%20EventBridge%20%7C%20SES%20%7C%20S3-orange?style=flat-square)](https://aws.amazon.com/)
 
-Application académique Spring Boot complète pour gérer les bulletins scolaires avec système asynchrone d'emails, génération de transcriptions PDF, export Excel, et contrôle d'accès granulaire basé sur les rôles (RBAC).
-
-Construite sur le template [Poja](https://poja.io) async-mailing avec des patterns d'audit immuable, permissions multi-rôles et intégration AWS complète.
-
 ---
 
-## 📋 Table des matières
+## Table des matières
 
 - [Fonctionnalités](#-fonctionnalités)
 - [Architecture](#-architecture)
@@ -28,7 +24,7 @@ Construite sur le template [Poja](https://poja.io) async-mailing avec des patter
 
 ---
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
 ### Gestion Académique
 - ✅ Gestion des **étudiants, professeurs, cours, groupes, promotions**
@@ -57,7 +53,7 @@ Construite sur le template [Poja](https://poja.io) async-mailing avec des patter
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Arborescence du projet
 
@@ -177,7 +173,7 @@ EventProducer.accept(List<SendEmailRequested>)
                 AWS SES → send email
 ```
 
-#### 2️⃣ Flux Transcription (PDF → S3 → Email)
+#### Flux Transcription (PDF → S3 → Email)
 
 ```
 POST /api/transcripts/send
@@ -199,7 +195,7 @@ TranscriptEmailRequestedService.accept(TranscriptEmailRequested)
     └─ Mailer.accept() → AWS SES
 ```
 
-#### 3️⃣ Flux Modification de Note (Avec Audit)
+#### Flux Modification de Note (Avec Audit)
 
 ```
 PUT /api/grades/{id}
@@ -224,7 +220,7 @@ GradeService.updateGrade(gradeId, newValue, reason, authorUserId)
 
 ---
 
-## 🗄️ Modèle de données (MCD)
+## Modèle de données (MCD)
 
 ```
 ┌─────────────┐         ┌───────────┐         ┌──────────────────────┐
@@ -311,7 +307,7 @@ GradeService.updateGrade(gradeId, newValue, reason, authorUserId)
 
 ---
 
-## 🔐 Authentification & Permissions
+## Authentification & Permissions
 
 ### Modèle d'authentification
 
