@@ -2,16 +2,19 @@ package api.poja.app.model;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
 @Setter
 public class User {
-  private Long id;
+  private UUID id;
   private String email;
   private String fullName;
+  private String password;
   private Role role;
-  private Long studentId;
-  private Long teacherId;
+  private String studentId;
+  private String teacherId;
 }
