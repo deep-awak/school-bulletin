@@ -8,6 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 public class SendTranscriptRequest {
-  private Long studentId;
+  private String studentId;
   private String academicYear;
 }
