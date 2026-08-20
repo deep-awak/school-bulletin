@@ -141,6 +141,20 @@ dependencies {
     implementation 'software.amazon.awssdk:ses:2.21.40'
     implementation 'software.amazon.awssdk:core:2.21.40'
 
+//    TO ADD ON POJA DEPENDENCE
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.2.2'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.2'
+    implementation 'org.springframework.retry:spring-retry:2.0.5'
+    testImplementation 'org.springframework.security:spring-security-test:6.2.2'
+    testImplementation 'org.mockito:mockito-core:5.7.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.7.0'
+    testImplementation 'org.assertj:assertj-core:3.27.7'
+
     implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
     implementation 'jakarta.activation:jakarta.activation-api:2.1.2'
     implementation 'com.sun.mail:jakarta.mail:2.0.1'

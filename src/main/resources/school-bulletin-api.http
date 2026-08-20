@@ -1,0 +1,369 @@
+### ============================================
+### AUTHENTICATION
+### ============================================
+
+### Login ADMIN
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@hei.mg",
+  "password": "Admin123!"
+}
+
+> {%
+    if (response.status === 200) {
+        client.global.set("access_token", response.body.token);
+        client.log("Token ADMIN retrieved: " + response.body.token.substring(0, 20) + "...");
+    } else {
+        client.log("Login error: " + response.status);
+    }
+%}
+
+### Login STUDENT
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jean.rakoto@hei.mg",
+  "password": "Student123!"
+}
+
+### Login TEACHER
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "herimanana.rabe@hei.mg",
+  "password": "Teacher123!"
+}
+
+
+### ============================================
+### PROMOTIONS (ADMIN required)
+### ============================================
+
+### Create promotion
+POST http://localhost:8080/api/promotions
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "name": "Promotion 2026",
+  "startYear": 2023,
+  "endYear": 2026
+}
+
+> {%
+    if (response.status === 201) {
+        client.global.set("promotionId", response.body.id);
+        client.log("Promotion created with ID: " + response.body.id);
+    }
+%}
+
+### List all promotions
+GET http://localhost:8080/api/promotions
+Authorization: Bearer {{access_token}}
+
+### Get promotion by ID
+GET http://localhost:8080/api/promotions/{{promotionId}}
+Authorization: Bearer {{access_token}}
+
+
+### ============================================
+### GROUPS (ADMIN required)
+### ============================================
+
+### Create group
+POST http://localhost:8080/api/groups
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "name": "Groupe A1",
+  "promotionId": "{{promotionId}}"
+}
+
+> {%
+    if (response.status === 201) {
+        client.global.set("groupId", response.body.id);
+        client.log("Group created with ID: " + response.body.id);
+    }
+%}
+
+### List groups by promotion
+GET http://localhost:8080/api/groups?promotionId={{promotionId}}
+Authorization: Bearer {{access_token}}
+
+### Get group by ID
+GET http://localhost:8080/api/groups/{{groupId}}
+Authorization: Bearer {{access_token}}
+
+
+### ============================================
+### TEACHERS (ADMIN required)
+### ============================================
+
+### Create teacher
+POST http://localhost:8080/api/teachers
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "firstName": "Herimanana",
+  "lastName": "Rabe",
+  "email": "herimanana.rabe@hei.mg"
+}
+
+> {%
+    if (response.status === 201) {
+        client.global.set("teacherId", response.body.id);
+        client.log("Teacher created with ID: " + response.body.id);
+    }
+%}
+
+### List all teachers
+GET http://localhost:8080/api/teachers
+Authorization: Bearer {{access_token}}
+
+### Get teacher by ID
+GET http://localhost:8080/api/teachers/{{teacherId}}
+Authorization: Bearer {{access_token}}
+
+
+### ============================================
+### COURSES (ADMIN required)
+### ============================================
+
+### Create course
+POST http://localhost:8080/api/courses
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "name": "Algorithmique",
+  "code": "ALG1"
+}
+
+> {%
+    if (response.status === 201) {
+        client.global.set("courseId", response.body.id);
+        client.log("Course created with ID: " + response.body.id);
+    }
+%}
+
+### List all courses
+GET http://localhost:8080/api/courses
+Authorization: Bearer {{access_token}}
+
+### Get course by ID
+GET http://localhost:8080/api/courses/{{courseId}}
+Authorization: Bearer {{access_token}}
+
+### Assign teacher to course/group
+POST http://localhost:8080/api/courses/teaching-assignments
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "courseId": "{{courseId}}",
+  "teacherId": "{{teacherId}}",
+  "groupId": "{{groupId}}",
+  "academicYear": "2025-2026"
+}
+
+
+### ============================================
+### STUDENTS (ADMIN required)
+### ============================================
+
+### Create student
+POST http://localhost:8080/api/students
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "std": "HEI-2023-014",
+  "firstName": "Jean",
+  "lastName": "Rakoto",
+  "email": "jean.rakoto@hei.mg",
+  "promotionId": "{{promotionId}}",
+  "groupId": "{{groupId}}"
+}
+
+> {%
+    if (response.status === 201) {
+        client.global.set("studentId", response.body.id);
+        client.log("Student created with ID: " + response.body.id);
+    }
+%}
+
+### List students by promotion
+GET http://localhost:8080/api/students?promotionId={{promotionId}}
+Authorization: Bearer {{access_token}}
+
+### Get student by ID
+GET http://localhost:8080/api/students/{{studentId}}
+Authorization: Bearer {{access_token}}
+
+### Reassign student to a new group
+POST http://localhost:8080/api/students/group-assignments
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "studentId": "{{studentId}}",
+  "groupId": "{{groupId}}",
+  "startDate": "2025-09-01"
+}
+
+### Get student group history
+GET http://localhost:8080/api/students/{{studentId}}/group-history
+Authorization: Bearer {{access_token}}
+
+
+### ============================================
+### GRADES (TEACHER or ADMIN)
+### ============================================
+
+### Create grade
+POST http://localhost:8080/api/grades
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "studentId": "{{studentId}}",
+  "courseId": "{{courseId}}",
+  "academicYear": "2025-2026",
+  "value": 14.5
+}
+
+> {%
+    if (response.status === 201) {
+        client.global.set("gradeId", response.body.id);
+        client.log("Grade created with ID: " + response.body.id);
+    }
+%}
+
+### List grades by student
+GET http://localhost:8080/api/grades?studentId={{studentId}}
+Authorization: Bearer {{access_token}}
+
+### Update grade (reason required)
+PATCH http://localhost:8080/api/grades/{{gradeId}}
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "value": 16.0,
+  "reason": "Correction after student complaint"
+}
+
+### Get grade modification history
+GET http://localhost:8080/api/grades/{{gradeId}}/history
+Authorization: Bearer {{access_token}}
+
+
+### ============================================
+### GRADUATES (ADMIN required)
+### ============================================
+
+### Get graduate ranking by promotion
+GET http://localhost:8080/api/promotions/{{promotionId}}/graduates
+Authorization: Bearer {{access_token}}
+
+### Export ranking to Excel
+GET http://localhost:8080/api/promotions/{{promotionId}}/graduates/export
+Authorization: Bearer {{access_token}}
+
+### Multi-promotion ranking - 3 years
+GET http://localhost:8080/api/promotions/{{promotionId}}/graduates/results?promotionIds={{promotionId}}
+Authorization: Bearer {{access_token}}
+
+
+### ============================================
+### TRANSCRIPTS
+### ============================================
+
+### Generate PDF transcript (returns S3 URL)
+POST http://localhost:8080/api/transcripts/generate?studentId={{studentId}}&academicYear=2025-2026
+Authorization: Bearer {{access_token}}
+
+### Send transcript by email (async POJA)
+POST http://localhost:8080/api/transcripts/send
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "studentId": "{{studentId}}",
+  "academicYear": "2025-2026"
+}
+
+
+### ============================================
+### SECURITY TESTS (401/403)
+### ============================================
+
+### Access without token - 401 Unauthorized
+GET http://localhost:8080/api/students
+
+### Invalid token - 401 Unauthorized
+GET http://localhost:8080/api/students
+Authorization: Bearer invalid.token.here
+
+### STUDENT accesses another student - 403 Forbidden
+GET http://localhost:8080/api/students/STD99999
+Authorization: Bearer {{access_token}}
+
+### STUDENT modifies a grade - 403 Forbidden
+PATCH http://localhost:8080/api/grades/{{gradeId}}
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "value": 18.0,
+  "reason": "Test"
+}
+
+### STUDENT creates a teacher - 403 Forbidden
+POST http://localhost:8080/api/teachers
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Forbidden",
+  "email": "test.forbidden@hei.mg"
+}
+
+### TEACHER creates a student - 403 Forbidden
+POST http://localhost:8080/api/students
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "std": "HEI-FORBIDDEN",
+  "firstName": "Test",
+  "lastName": "Forbidden",
+  "email": "test.forbidden@hei.mg",
+  "promotionId": "{{promotionId}}",
+  "groupId": "{{groupId}}"
+}
+
+### TEACHER accesses graduates - 403 Forbidden
+GET http://localhost:8080/api/promotions/{{promotionId}}/graduates
+Authorization: Bearer {{access_token}}
+
+
+### ============================================
+### THYMELEAF (no authentication)
+### ============================================
+
+### Promotions list page
+GET http://localhost:8080/promotions
+
+### Promotion detail page
+GET http://localhost:8080/promotions/{{promotionId}}
+
+### Excel export from Thymeleaf
+GET http://localhost:8080/promotions/{{promotionId}}/export

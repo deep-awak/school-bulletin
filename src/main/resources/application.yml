@@ -2,19 +2,19 @@ spring:
   application:
     name: school-bulletin
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/school_bulletin_db}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:Pa$$Na$$aIW0rd}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
   jpa:
     hibernate:
-      # Flyway (below) owns the schema; Hibernate only validates it matches the entities.
       ddl-auto: validate
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
   flyway:
-    enabled: true
+    enabled: false
+
     locations: classpath:db/migration
   thymeleaf:
     cache: false
@@ -22,7 +22,14 @@ spring:
 aws:
   eventBridge:
     bus: ${AWS_EVENT_BUS:default}
-  # BucketConf (existing template code, untouched) reads this exact key via
-  # @Value("${aws.s3.bucket}") - it does NOT read aws.bucket.name.
   s3:
     bucket: ${AWS_S3_BUCKET:school-bulletin-bucket}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:defaultSecretKeyForSchoolBulletinProject2025}
+    expiration: ${JWT_EXPIRATION:86400000}
+  admin:
+    email: ${ADMIN_EMAIL:admin@hei.mg}
+    password: ${ADMIN_PASSWORD:Admin123!}
+    full-name: ${ADMIN_FULL_NAME:Administrateur}
