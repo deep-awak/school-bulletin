@@ -8,6 +8,8 @@ import api.poja.app.model.Promotion;
 import api.poja.app.repository.PromotionRepository;
 import api.poja.app.validator.PromotionValidator;
 import java.util.List;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class PromotionService {
     return PromotionMapper.toModel(promotionRepository.save(entity));
   }
 
-  public Promotion getById(Long id) {
+  public Promotion getById(UUID id) {
     return PromotionMapper.toModel(
         promotionRepository
             .findById(id)
