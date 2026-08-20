@@ -1,8 +1,10 @@
 package api.poja.app.jpa;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "student_group_assignment")
@@ -12,9 +14,10 @@ import lombok.*;
 @Getter
 @Setter
 public class StudentGroupAssignmentEntity {
+
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "student_id", nullable = false)
