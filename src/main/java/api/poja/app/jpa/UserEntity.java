@@ -3,6 +3,8 @@ package api.poja.app.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @NoArgsConstructor
@@ -12,8 +14,8 @@ import lombok.*;
 @Setter
 public class UserEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   @Column(nullable = false, unique = true)
   private String email;
@@ -21,13 +23,16 @@ public class UserEntity {
   @Column(nullable = false)
   private String fullName;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @Column(nullable = false)
+  private String password;
+
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "role_id", nullable = false)
   private RoleEntity role;
 
   @Column(name = "student_id")
-  private Long studentId;
+  private String studentId;
 
   @Column(name = "teacher_id")
-  private Long teacherId;
+  private String teacherId;
 }

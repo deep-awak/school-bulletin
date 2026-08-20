@@ -3,6 +3,8 @@ package api.poja.app.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "student", uniqueConstraints = @UniqueConstraint(columnNames = "std"))
 @NoArgsConstructor
@@ -12,8 +14,7 @@ import lombok.*;
 @Setter
 public class StudentEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @Column(nullable = false, unique = true)
   private String std;
@@ -32,5 +33,5 @@ public class StudentEntity {
   private PromotionEntity promotion;
 
   @Column(name = "user_id")
-  private Long userId;
+  private UUID userId;
 }
