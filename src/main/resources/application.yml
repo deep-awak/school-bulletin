@@ -2,19 +2,19 @@ spring:
   application:
     name: school-bulletin
   datasource:
-    url: ${DB_URL:}
-    username: ${DB_USERNAME:}
-    password: ${DB_PASSWORD:}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      # Flyway (below) owns the schema; Hibernate only validates it matches the entities.
-      ddl-auto: validate
+      ddl-auto: update
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
   flyway:
-    enabled: true
+    enabled: false
+
     locations: classpath:db/migration
   thymeleaf:
     cache: false
