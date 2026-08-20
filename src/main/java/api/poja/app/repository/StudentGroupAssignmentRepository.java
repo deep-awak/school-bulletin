@@ -1,15 +1,15 @@
 package api.poja.app.repository;
 
 import api.poja.app.jpa.StudentGroupAssignmentEntity;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StudentGroupAssignmentRepository
-    extends JpaRepository<StudentGroupAssignmentEntity, Long> {
-  List<StudentGroupAssignmentEntity> findByStudentIdOrderByStartDateDesc(Long studentId);
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-  Optional<StudentGroupAssignmentEntity> findByStudentIdAndEndDateIsNull(Long studentId);
+public interface StudentGroupAssignmentRepository extends JpaRepository<StudentGroupAssignmentEntity, UUID> {
 
-  List<StudentGroupAssignmentEntity> findByGroupIdAndEndDateIsNull(Long groupId);
+  List<StudentGroupAssignmentEntity> findByStudentIdOrderByStartDateDesc(String studentId);
+
+  Optional<StudentGroupAssignmentEntity> findByStudentIdAndEndDateIsNull(String studentId);
 }
