@@ -1,14 +1,13 @@
 package api.poja.app.repository;
 
 import api.poja.app.jpa.CourseTeachingEntity;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CourseTeachingRepository extends JpaRepository<CourseTeachingEntity, Long> {
-  List<CourseTeachingEntity> findByTeacherId(Long teacherId);
+import java.util.List;
+import java.util.UUID;
 
-  List<CourseTeachingEntity> findByCourseIdAndTeacherIdAndGroupId(
-      Long courseId, Long teacherId, Long groupId);
+public interface CourseTeachingRepository extends JpaRepository<CourseTeachingEntity, UUID> {
+  List<CourseTeachingEntity> findByTeacherId(String teacherId);
 
-  boolean existsByTeacherIdAndCourseIdAndGroupId(Long teacherId, Long courseId, Long groupId);
+  boolean existsByTeacherIdAndCourseIdAndGroupId(String teacherId, UUID courseId, String groupId);
 }
