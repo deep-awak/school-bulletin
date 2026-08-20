@@ -1,7 +1,8 @@
 package api.poja.app.dto.request;
 
-import java.time.LocalDate;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -9,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 public class AssignStudentGroupRequest {
-  private Long studentId;
-  private Long groupId;
+  private String studentId;
+  private String groupId;
   private LocalDate startDate;
 }
