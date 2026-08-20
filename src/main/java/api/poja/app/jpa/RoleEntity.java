@@ -4,6 +4,8 @@ import api.poja.app.model.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "role", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @NoArgsConstructor
@@ -13,8 +15,8 @@ import lombok.*;
 @Setter
 public class RoleEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   @Column(nullable = false, unique = true)
   @Enumerated(EnumType.STRING)
