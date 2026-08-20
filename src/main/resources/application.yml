@@ -2,12 +2,12 @@ spring:
   application:
     name: school-bulletin
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/}
-    username: ${DB_USERNAME:}
-    password: ${DB_PASSWORD:}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/school_grade_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:Pa$$Na$$aIW0rd}
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     open-in-view: false
     properties:
       hibernate:
@@ -27,7 +27,7 @@ aws:
 
 app:
   jwt:
-    secret: ${JWT_SECRET:}
+    secret: ${JWT_SECRET:defaultSecretKeyForSchoolBulletinProject2025MustBeAtLeast32Chars}
     expiration: ${JWT_EXPIRATION:86400000}
   admin:
     email: ${ADMIN_EMAIL:admin@hei.mg}
