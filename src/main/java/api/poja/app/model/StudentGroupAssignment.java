@@ -1,7 +1,9 @@
 package api.poja.app.model;
 
-import java.time.LocalDate;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -9,9 +11,9 @@ import lombok.*;
 @Getter
 @Setter
 public class StudentGroupAssignment {
-  private Long id;
-  private Long studentId;
-  private Long groupId;
+  private UUID id;
+  private String studentId;
+  private String groupId;
   private LocalDate startDate;
   private LocalDate endDate;
 }
