@@ -3,15 +3,17 @@ package api.poja.app.security;
 import api.poja.app.model.Role;
 import lombok.*;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 public class CurrentUser {
-  private Long userId;
+  private UUID userId;
   private Role role;
-  private Long studentId;
-  private Long teacherId;
+  private String studentId;
+  private String teacherId;
 
   public boolean isAdmin() {
     return role == Role.ADMIN;
