@@ -2,48 +2,35 @@ package api.poja.app.security;
 
 import api.poja.app.exception.UnauthorizedException;
 import api.poja.app.jpa.UserEntity;
-import api.poja.app.model.Role;
 import api.poja.app.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-/**
- * Resolves the caller's identity for the current request.
- *
- * <p>The project has no login/password flow (out of scope for this exercise); the caller
- * identifies itself with the {@code X-User-Id} header, which must match an existing {@link
- * UserEntity}. This keeps role enforcement (STUDENT/TEACHER/ADMIN) real and testable without
- * building a full authentication stack.
- */
+import java.util.UUID;
+
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthContext {
-  public static final String USER_ID_HEADER = "X-User-Id";
 
   private final UserRepository userRepository;
 
-  public CurrentUser resolve(HttpServletRequest request) {
-    String header = request.getHeader(USER_ID_HEADER);
-    if (header == null || header.isBlank()) {
-      throw new UnauthorizedException("Missing " + USER_ID_HEADER + " header");
+  public CurrentUser getCurrentUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated()) {
+      throw new UnauthorizedException("User not authenticated");
     }
-    Long userId;
-    try {
-      userId = Long.valueOf(header);
-    } catch (NumberFormatException e) {
-      throw new UnauthorizedException("Invalid " + USER_ID_HEADER + " header");
-    }
-    UserEntity user =
-        userRepository
-            .findById(userId)
-            .orElseThrow(() -> new UnauthorizedException("Unknown user: " + userId));
+
+    String email = authentication.getName();
+    UserEntity user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UnauthorizedException("User not found: " + email));
 
     return CurrentUser.builder()
-        .userId(user.getId())
-        .role(user.getRole().getName())
-        .studentId(user.getStudentId())
-        .teacherId(user.getTeacherId())
-        .build();
+            .userId(user.getId())
+            .role(user.getRole().getName())
+            .studentId(user.getStudentId())
+            .teacherId(user.getTeacherId())
+            .build();
   }
 }
