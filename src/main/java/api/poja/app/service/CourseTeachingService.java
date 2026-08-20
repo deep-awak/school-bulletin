@@ -13,14 +13,11 @@ import api.poja.app.repository.GroupRepository;
 import api.poja.app.repository.TeacherRepository;
 import api.poja.app.validator.AssignmentValidator;
 import java.util.List;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * Assigns a teacher to teach a course to a group for a given academic year. A course can have
- * several teachers and be taught to several groups, but not necessarily to all of them - this is
- * exactly what this association captures.
- */
 @Service
 @AllArgsConstructor
 public class CourseTeachingService {
@@ -62,7 +59,7 @@ public class CourseTeachingService {
     return toModel(saved);
   }
 
-  public List<CourseTeaching> listByTeacher(Long teacherId) {
+  public List<CourseTeaching> listByTeacher(String teacherId) {
     return courseTeachingRepository.findByTeacherId(teacherId).stream()
         .map(CourseTeachingService::toModel)
         .toList();
