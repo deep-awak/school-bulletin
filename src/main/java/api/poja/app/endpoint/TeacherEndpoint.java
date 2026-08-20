@@ -4,15 +4,16 @@ import api.poja.app.dto.request.CreateTeacherRequest;
 import api.poja.app.dto.TeacherDto;
 import api.poja.app.mapper.TeacherMapper;
 import api.poja.app.service.TeacherService;
-import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/teachers")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TeacherEndpoint {
   private final TeacherService teacherService;
 
@@ -23,7 +24,7 @@ public class TeacherEndpoint {
   }
 
   @GetMapping("/{id}")
-  public TeacherDto getById(@PathVariable Long id) {
+  public TeacherDto getById(@PathVariable String id) {
     return TeacherMapper.toDto(teacherService.getById(id));
   }
 
