@@ -2,10 +2,11 @@ package api.poja.app.mail;
 
 import api.poja.app.PojaGenerated;
 import jakarta.mail.internet.InternetAddress;
-import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.ses.model.VerifyEmailIdentityRequest;
+
+import java.util.function.Consumer;
 
 @Component
 @AllArgsConstructor

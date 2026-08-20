@@ -1,9 +1,5 @@
 package api.poja.app.handler;
 
-import static api.poja.app.concurrency.ThreadRenamer.renameWorkerThread;
-import static java.lang.System.getenv;
-import static java.lang.Thread.currentThread;
-
 import api.poja.app.PojaApplication;
 import api.poja.app.PojaGenerated;
 import api.poja.app.endpoint.EndpointConf;
@@ -15,12 +11,17 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent.SQSMessage;
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import software.amazon.awssdk.regions.Region;
+
+import java.util.List;
+import java.util.Map;
+
+import static api.poja.app.concurrency.ThreadRenamer.renameWorkerThread;
+import static java.lang.System.getenv;
+import static java.lang.Thread.currentThread;
 
 @Slf4j
 @PojaGenerated

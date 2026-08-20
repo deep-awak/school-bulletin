@@ -1,15 +1,16 @@
 package api.poja.app.endpoint.event.consumer;
 
-import static java.util.stream.Collectors.toList;
-
 import api.poja.app.PojaGenerated;
 import api.poja.app.concurrency.Workers;
 import api.poja.app.endpoint.event.consumer.model.ConsumableEvent;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+
+import static java.util.stream.Collectors.toList;
 
 @PojaGenerated
 @Component

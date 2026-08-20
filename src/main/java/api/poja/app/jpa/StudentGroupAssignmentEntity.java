@@ -1,0 +1,34 @@
+package api.poja.app.jpa;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Entity
+@Table(name = "student_group_assignment")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@Getter
+@Setter
+public class StudentGroupAssignmentEntity {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "student_id", nullable = false)
+  private StudentEntity student;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "group_id", nullable = false)
+  private GroupEntity group;
+
+  @Column(nullable = false)
+  private LocalDate startDate;
+
+  private LocalDate endDate;
+}

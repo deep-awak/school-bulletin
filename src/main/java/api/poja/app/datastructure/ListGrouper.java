@@ -1,12 +1,13 @@
 package api.poja.app.datastructure;
 
-import static java.lang.Math.min;
-
 import api.poja.app.PojaGenerated;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
-import org.springframework.stereotype.Component;
+
+import static java.lang.Math.min;
 
 @PojaGenerated
 @Component

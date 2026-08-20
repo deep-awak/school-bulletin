@@ -1,8 +1,9 @@
 package api.poja.app.concurrency;
 
 import api.poja.app.PojaGenerated;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.UUID;
 
 @PojaGenerated
 @Slf4j

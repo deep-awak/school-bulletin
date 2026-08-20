@@ -1,13 +1,13 @@
 package api.poja.app.endpoint.rest.controller.health;
 
-import static api.poja.app.file.hash.FileHashAlgorithm.NONE;
-import static java.io.File.createTempFile;
-import static java.nio.file.Files.createTempDirectory;
-import static java.util.UUID.randomUUID;
-
 import api.poja.app.PojaGenerated;
 import api.poja.app.file.bucket.BucketComponent;
 import api.poja.app.file.hash.FileHash;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,10 +15,11 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import static api.poja.app.file.hash.FileHashAlgorithm.NONE;
+import static java.io.File.createTempFile;
+import static java.nio.file.Files.createTempDirectory;
+import static java.util.UUID.randomUUID;
 
 @PojaGenerated
 @RestController

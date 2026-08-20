@@ -1,20 +1,21 @@
 package api.poja.app.endpoint.rest.controller.health;
 
-import static api.poja.app.endpoint.rest.controller.health.PingController.OK;
-import static java.io.File.createTempFile;
-
 import api.poja.app.PojaGenerated;
 import api.poja.app.mail.Email;
 import api.poja.app.mail.Mailer;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
-import java.io.IOException;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.List;
+
+import static api.poja.app.endpoint.rest.controller.health.PingController.OK;
+import static java.io.File.createTempFile;
 
 @PojaGenerated
 @RestController
