@@ -27,7 +27,7 @@ aws:
 
 app:
   jwt:
-    secret: ${JWT_SECRET:}
+    secret: ${JWT_SECRET:defaultSecretKeyForSchoolBulletinProject2025}
     expiration: ${JWT_EXPIRATION:86400000}
   admin:
     email: ${ADMIN_EMAIL:admin@hei.mg}
