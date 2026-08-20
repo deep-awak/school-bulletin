@@ -9,7 +9,6 @@ import api.poja.app.repository.PromotionRepository;
 import api.poja.app.validator.PromotionValidator;
 import java.util.List;
 import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

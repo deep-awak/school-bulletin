@@ -1,16 +1,15 @@
 package api.poja.app.endpoint;
 
-import api.poja.app.dto.request.CreateGroupRequest;
 import api.poja.app.dto.GroupDto;
+import api.poja.app.dto.request.CreateGroupRequest;
 import api.poja.app.mapper.GroupMapper;
 import api.poja.app.service.GroupService;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -31,8 +30,6 @@ public class GroupEndpoint {
 
   @GetMapping
   public List<GroupDto> listByPromotion(@RequestParam UUID promotionId) {
-    return groupService.listByPromotion(promotionId).stream()
-            .map(GroupMapper::toDto)
-            .toList();
+    return groupService.listByPromotion(promotionId).stream().map(GroupMapper::toDto).toList();
   }
 }

@@ -1,14 +1,13 @@
 package api.poja.app.jpa;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.UUID;
+import lombok.*;
 
 @Entity
 @Table(
-        name = "course_teaching",
-        uniqueConstraints =
+    name = "course_teaching",
+    uniqueConstraints =
         @UniqueConstraint(columnNames = {"course_id", "teacher_id", "group_id", "academic_year"}))
 @NoArgsConstructor
 @AllArgsConstructor

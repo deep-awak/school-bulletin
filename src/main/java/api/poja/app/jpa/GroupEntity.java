@@ -3,8 +3,6 @@ package api.poja.app.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "student_group")
 @NoArgsConstructor
@@ -13,8 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class GroupEntity {
-  @Id
-  private String id;
+  @Id private String id;
 
   @Column(nullable = false)
   private String name;

@@ -1,9 +1,8 @@
 package api.poja.app.jpa;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.UUID;
+import lombok.*;
 
 @Entity
 @Table(name = "student", uniqueConstraints = @UniqueConstraint(columnNames = "std"))
@@ -13,8 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class StudentEntity {
-  @Id
-  private String id;
+  @Id private String id;
 
   @Column(nullable = false, unique = true)
   private String std;

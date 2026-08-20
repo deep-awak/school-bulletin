@@ -1,10 +1,9 @@
 package api.poja.app.jpa;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDate;
 import java.util.UUID;
+import lombok.*;
 
 @Entity
 @Table(name = "student_group_assignment")

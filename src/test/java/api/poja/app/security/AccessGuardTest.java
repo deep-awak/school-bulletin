@@ -49,8 +49,7 @@ class AccessGuardTest {
   @Test
   void a_student_can_access_their_own_data() {
     var student = user(Role.STUDENT, 42L, null);
-    assertThatCode(() -> accessGuard.requireSelfOrStaff(student, 42L))
-        .doesNotThrowAnyException();
+    assertThatCode(() -> accessGuard.requireSelfOrStaff(student, 42L)).doesNotThrowAnyException();
   }
 
   @Test
@@ -63,8 +62,7 @@ class AccessGuardTest {
   @Test
   void a_teacher_can_access_any_student_data() {
     var teacher = user(Role.TEACHER, null, 7L);
-    assertThatCode(() -> accessGuard.requireSelfOrStaff(teacher, 43L))
-        .doesNotThrowAnyException();
+    assertThatCode(() -> accessGuard.requireSelfOrStaff(teacher, 43L)).doesNotThrowAnyException();
   }
 
   @Test

@@ -2,10 +2,9 @@ package api.poja.app.security;
 
 import api.poja.app.exception.ForbiddenException;
 import api.poja.app.repository.CourseTeachingRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -36,10 +35,12 @@ public class AccessGuard {
     if (!user.isTeacher() || user.getTeacherId() == null) {
       throw new ForbiddenException("Only a teacher or an admin can modify grades");
     }
-    boolean isAssigned = courseTeachingRepository.existsByTeacherIdAndCourseIdAndGroupId(
+    boolean isAssigned =
+        courseTeachingRepository.existsByTeacherIdAndCourseIdAndGroupId(
             user.getTeacherId(), courseId, teacherGroupId);
     if (!isAssigned) {
-      throw new ForbiddenException("You are not assigned to teach this course to this student's group");
+      throw new ForbiddenException(
+          "You are not assigned to teach this course to this student's group");
     }
   }
 }

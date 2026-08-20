@@ -18,13 +18,12 @@ import api.poja.app.repository.StudentRepository;
 import api.poja.app.security.AccessGuard;
 import api.poja.app.security.CurrentUser;
 import api.poja.app.validator.GradeValidator;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,18 +41,26 @@ public class GradeService {
   public Grade create(CreateGradeRequest request, CurrentUser author) {
     gradeValidator.validate(request);
 
-    StudentEntity student = studentRepository.findById(request.getStudentId())
-            .orElseThrow(() -> new ResourceNotFoundException("Student not found: " + request.getStudentId()));
+    StudentEntity student =
+        studentRepository
+            .findById(request.getStudentId())
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException("Student not found: " + request.getStudentId()));
 
-    CourseEntity course = courseRepository.findById(request.getCourseId())
-            .orElseThrow(() -> new ResourceNotFoundException("Course not found: " + request.getCourseId()));
+    CourseEntity course =
+        courseRepository
+            .findById(request.getCourseId())
+            .orElseThrow(
+                () -> new ResourceNotFoundException("Course not found: " + request.getCourseId()));
 
     String studentGroupId = studentGroupAssignmentService.currentGroupId(student.getId());
     accessGuard.requireCourseTeacherOrAdmin(author, course.getId(), studentGroupId);
 
     Instant now = Instant.now();
 
-    GradeEntity entity = GradeEntity.builder()
+    GradeEntity entity =
+        GradeEntity.builder()
             .student(student)
             .course(course)
             .academicYear(request.getAcademicYear())
@@ -66,15 +73,14 @@ public class GradeService {
     GradeEntity saved = gradeRepository.save(entity);
 
     gradeHistoryRepository.save(
-            GradeHistoryEntity.builder()
-                    .grade(saved)
-                    .oldValue(null)
-                    .newValue(saved.getValue())
-                    .reason("Initial grade entry")
-                    .authorUserId(author.getUserId())
-                    .changedAt(now)
-                    .build()
-    );
+        GradeHistoryEntity.builder()
+            .grade(saved)
+            .oldValue(null)
+            .newValue(saved.getValue())
+            .reason("Initial grade entry")
+            .authorUserId(author.getUserId())
+            .changedAt(now)
+            .build());
 
     return GradeMapper.toModel(saved);
   }
@@ -83,10 +89,13 @@ public class GradeService {
   public Grade update(UUID gradeId, UpdateGradeRequest request, CurrentUser author) {
     gradeValidator.validate(request);
 
-    GradeEntity grade = gradeRepository.findById(gradeId)
+    GradeEntity grade =
+        gradeRepository
+            .findById(gradeId)
             .orElseThrow(() -> new ResourceNotFoundException("Grade not found: " + gradeId));
 
-    String studentGroupId = studentGroupAssignmentService.currentGroupId(grade.getStudent().getId());
+    String studentGroupId =
+        studentGroupAssignmentService.currentGroupId(grade.getStudent().getId());
     accessGuard.requireCourseTeacherOrAdmin(author, grade.getCourse().getId(), studentGroupId);
 
     double oldValue = grade.getValue();
@@ -97,34 +106,33 @@ public class GradeService {
     GradeEntity saved = gradeRepository.save(grade);
 
     gradeHistoryRepository.save(
-            GradeHistoryEntity.builder()
-                    .grade(saved)
-                    .oldValue(oldValue)
-                    .newValue(request.getValue())
-                    .reason(request.getReason())
-                    .authorUserId(author.getUserId())
-                    .changedAt(now)
-                    .build()
-    );
+        GradeHistoryEntity.builder()
+            .grade(saved)
+            .oldValue(oldValue)
+            .newValue(request.getValue())
+            .reason(request.getReason())
+            .authorUserId(author.getUserId())
+            .changedAt(now)
+            .build());
 
     return GradeMapper.toModel(saved);
   }
 
   public List<Grade> listForStudent(String studentId, CurrentUser requester) {
     accessGuard.requireSelfOrStaff(requester, studentId);
-    return gradeRepository.findByStudentId(studentId).stream()
-            .map(GradeMapper::toModel)
-            .toList();
+    return gradeRepository.findByStudentId(studentId).stream().map(GradeMapper::toModel).toList();
   }
 
   public List<GradeHistory> history(UUID gradeId, CurrentUser requester) {
-    GradeEntity grade = gradeRepository.findById(gradeId)
+    GradeEntity grade =
+        gradeRepository
+            .findById(gradeId)
             .orElseThrow(() -> new ResourceNotFoundException("Grade not found: " + gradeId));
 
     accessGuard.requireSelfOrStaff(requester, grade.getStudent().getId());
 
     return gradeHistoryRepository.findByGradeIdOrderByChangedAtDesc(gradeId).stream()
-            .map(GradeHistoryMapper::toModel)
-            .toList();
+        .map(GradeHistoryMapper::toModel)
+        .toList();
   }
 }

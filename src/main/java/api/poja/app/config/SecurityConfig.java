@@ -19,38 +19,48 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.csrf(AbstractHttpConfigurer::disable)
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/auth/**", "/promotions/**").permitAll()
-						.requestMatchers("/api/students/**").hasAnyRole("STUDENT", "ADMIN")
-						.requestMatchers("/api/teachers/**").hasAnyRole("TEACHER", "ADMIN")
-						.requestMatchers("/api/grades/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
-						.requestMatchers("/api/promotions/**").hasRole("ADMIN")
-						.requestMatchers("/api/groups/**").hasRole("ADMIN")
-						.requestMatchers("/api/courses/**").hasRole("ADMIN")
-						.requestMatchers("/api/transcripts/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
-						.requestMatchers("/api/graduates/**").hasRole("ADMIN")
-						.anyRequest().authenticated()
-				)
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable)
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers("/api/auth/**", "/promotions/**")
+                    .permitAll()
+                    .requestMatchers("/api/students/**")
+                    .hasAnyRole("STUDENT", "ADMIN")
+                    .requestMatchers("/api/teachers/**")
+                    .hasAnyRole("TEACHER", "ADMIN")
+                    .requestMatchers("/api/grades/**")
+                    .hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+                    .requestMatchers("/api/promotions/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/groups/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/courses/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/transcripts/**")
+                    .hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+                    .requestMatchers("/api/graduates/**")
+                    .hasRole("ADMIN")
+                    .anyRequest()
+                    .authenticated())
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-		return http.build();
-	}
+    return http.build();
+  }
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-		return config.getAuthenticationManager();
-	}
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+      throws Exception {
+    return config.getAuthenticationManager();
+  }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }

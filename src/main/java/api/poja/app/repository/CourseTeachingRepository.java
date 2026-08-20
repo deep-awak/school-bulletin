@@ -1,10 +1,9 @@
 package api.poja.app.repository;
 
 import api.poja.app.jpa.CourseTeachingEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CourseTeachingRepository extends JpaRepository<CourseTeachingEntity, UUID> {
   List<CourseTeachingEntity> findByTeacherId(String teacherId);

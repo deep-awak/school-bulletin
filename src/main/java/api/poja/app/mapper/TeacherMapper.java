@@ -10,32 +10,32 @@ public final class TeacherMapper {
   public static Teacher toModel(TeacherEntity e) {
     if (e == null) return null;
     return Teacher.builder()
-            .id(e.getId())
-            .firstName(e.getFirstName())
-            .lastName(e.getLastName())
-            .email(e.getEmail())
-            .userId(e.getUserId())
-            .build();
+        .id(e.getId())
+        .firstName(e.getFirstName())
+        .lastName(e.getLastName())
+        .email(e.getEmail())
+        .userId(e.getUserId())
+        .build();
   }
 
   public static TeacherEntity toEntity(Teacher m) {
     if (m == null) return null;
     return TeacherEntity.builder()
-            .id(m.getId())
-            .firstName(m.getFirstName())
-            .lastName(m.getLastName())
-            .email(m.getEmail())
-            .userId(m.getUserId())
-            .build();
+        .id(m.getId())
+        .firstName(m.getFirstName())
+        .lastName(m.getLastName())
+        .email(m.getEmail())
+        .userId(m.getUserId())
+        .build();
   }
 
   public static TeacherDto toDto(Teacher m) {
     if (m == null) return null;
     return TeacherDto.builder()
-            .id(m.getId())
-            .firstName(m.getFirstName())
-            .lastName(m.getLastName())
-            .email(m.getEmail())
-            .build();
+        .id(m.getId())
+        .firstName(m.getFirstName())
+        .lastName(m.getLastName())
+        .email(m.getEmail())
+        .build();
   }
 }

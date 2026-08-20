@@ -21,9 +21,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * The Thymeleaf promotion page has no login (see README), so its Excel download goes through
- * {@link GraduateService#rankPromotionForView(Long)} instead of the ADMIN-gated REST path. This
- * checks that shortcut produces the same ranking without needing a CurrentUser at all.
+ * The Thymeleaf promotion page has no login (see README), so its Excel download goes through {@link
+ * GraduateService#rankPromotionForView(Long)} instead of the ADMIN-gated REST path. This checks
+ * that shortcut produces the same ranking without needing a CurrentUser at all.
  */
 @ExtendWith(MockitoExtension.class)
 class GraduateServiceViewRankingTest {
@@ -39,7 +39,10 @@ class GraduateServiceViewRankingTest {
   void setUp() {
     graduateService =
         new GraduateService(
-            promotionRepository, studentRepository, gradeRepository, new AccessGuard(courseTeachingRepository));
+            promotionRepository,
+            studentRepository,
+            gradeRepository,
+            new AccessGuard(courseTeachingRepository));
   }
 
   @Test
@@ -52,7 +55,8 @@ class GraduateServiceViewRankingTest {
     when(promotionRepository.findById(1L)).thenReturn(Optional.of(promotion));
     when(studentRepository.findByPromotionId(1L)).thenReturn(List.of(student));
     when(gradeRepository.findByStudentIdIn(List.of(1L)))
-        .thenReturn(List.of(GradeEntity.builder().student(student).course(course).value(12d).build()));
+        .thenReturn(
+            List.of(GradeEntity.builder().student(student).course(course).value(12d).build()));
 
     var ranking = graduateService.rankPromotionForView(1L);
 

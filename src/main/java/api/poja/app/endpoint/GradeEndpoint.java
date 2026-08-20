@@ -1,20 +1,19 @@
 package api.poja.app.endpoint;
 
-import api.poja.app.dto.request.CreateGradeRequest;
 import api.poja.app.dto.GradeDto;
 import api.poja.app.dto.GradeHistoryDto;
+import api.poja.app.dto.request.CreateGradeRequest;
 import api.poja.app.dto.request.UpdateGradeRequest;
 import api.poja.app.mapper.GradeHistoryMapper;
 import api.poja.app.mapper.GradeMapper;
 import api.poja.app.security.AuthContext;
 import api.poja.app.service.GradeService;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/grades")
@@ -41,15 +40,13 @@ public class GradeEndpoint {
   public List<GradeDto> listForStudent(@RequestParam String studentId) {
     var requester = authContext.getCurrentUser();
     return gradeService.listForStudent(studentId, requester).stream()
-            .map(GradeMapper::toDto)
-            .toList();
+        .map(GradeMapper::toDto)
+        .toList();
   }
 
   @GetMapping("/{id}/history")
   public List<GradeHistoryDto> history(@PathVariable UUID id) {
     var requester = authContext.getCurrentUser();
-    return gradeService.history(id, requester).stream()
-            .map(GradeHistoryMapper::toDto)
-            .toList();
+    return gradeService.history(id, requester).stream().map(GradeHistoryMapper::toDto).toList();
   }
 }

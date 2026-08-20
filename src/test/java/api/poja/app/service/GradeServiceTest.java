@@ -49,7 +49,8 @@ class GradeServiceTest {
 
   private final StudentEntity student =
       StudentEntity.builder().id(1L).std("HEI-1").firstName("Jean").lastName("Rakoto").build();
-  private final CourseEntity course = CourseEntity.builder().id(2L).name("Algo").code("ALG1").build();
+  private final CourseEntity course =
+      CourseEntity.builder().id(2L).name("Algo").code("ALG1").build();
   private final GroupEntity group = GroupEntity.builder().id(3L).name("G1").build();
 
   @BeforeEach
@@ -58,7 +59,10 @@ class GradeServiceTest {
     GradeValidator gradeValidator = new GradeValidator();
     StudentGroupAssignmentService assignmentService =
         new StudentGroupAssignmentService(
-            assignmentRepository, studentRepository, null, new api.poja.app.validator.AssignmentValidator());
+            assignmentRepository,
+            studentRepository,
+            null,
+            new api.poja.app.validator.AssignmentValidator());
     gradeService =
         new GradeService(
             gradeRepository,
@@ -174,8 +178,7 @@ class GradeServiceTest {
     when(gradeRepository.findById(999L)).thenReturn(Optional.empty());
     var request = UpdateGradeRequest.builder().value(16d).reason("fix").build();
 
-    assertThatThrownBy(
-            () -> gradeService.update(999L, request, teacherAssignedToCourse_noStub()))
+    assertThatThrownBy(() -> gradeService.update(999L, request, teacherAssignedToCourse_noStub()))
         .isInstanceOf(ResourceNotFoundException.class);
   }
 

@@ -1,8 +1,7 @@
 package api.poja.app.dto;
 
-import lombok.*;
-
 import java.util.UUID;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor

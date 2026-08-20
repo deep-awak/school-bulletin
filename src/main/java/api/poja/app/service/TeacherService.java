@@ -8,10 +8,9 @@ import api.poja.app.model.Teacher;
 import api.poja.app.repository.TeacherRepository;
 import api.poja.app.util.IdGenerator;
 import api.poja.app.validator.TeacherValidator;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,8 @@ public class TeacherService {
     teacherValidator.validate(request);
     String generatedId = idGenerator.generateTeacherId();
 
-    TeacherEntity entity = TeacherEntity.builder()
+    TeacherEntity entity =
+        TeacherEntity.builder()
             .id(generatedId)
             .firstName(request.getFirstName())
             .lastName(request.getLastName())
@@ -36,13 +36,12 @@ public class TeacherService {
 
   public Teacher getById(String id) {
     return TeacherMapper.toModel(
-            teacherRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Teacher not found: " + id)));
+        teacherRepository
+            .findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Teacher not found: " + id)));
   }
 
   public List<Teacher> listAll() {
-    return teacherRepository.findAll().stream()
-            .map(TeacherMapper::toModel)
-            .toList();
+    return teacherRepository.findAll().stream().map(TeacherMapper::toModel).toList();
   }
 }

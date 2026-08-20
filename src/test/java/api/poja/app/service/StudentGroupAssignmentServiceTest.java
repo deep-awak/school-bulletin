@@ -74,7 +74,9 @@ class StudentGroupAssignmentServiceTest {
     verify(assignmentRepository, org.mockito.Mockito.times(2)).save(captor.capture());
 
     var savedOld =
-        captor.getAllValues().stream().filter(a -> a.getId() != null && a.getId().equals(5L)).findFirst();
+        captor.getAllValues().stream()
+            .filter(a -> a.getId() != null && a.getId().equals(5L))
+            .findFirst();
     assertThat(savedOld).isPresent();
     assertThat(savedOld.get().getEndDate()).isNotNull();
 

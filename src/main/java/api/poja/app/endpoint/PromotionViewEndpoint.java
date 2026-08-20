@@ -5,6 +5,9 @@ import api.poja.app.excel.GraduateExcelExporter;
 import api.poja.app.service.GraduateService;
 import api.poja.app.service.PromotionService;
 import api.poja.app.service.StudentService;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,10 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,16 +42,19 @@ public class PromotionViewEndpoint {
   }
 
   @GetMapping(
-          value = "/promotions/{id}/export",
-          produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  )
+      value = "/promotions/{id}/export",
+      produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
   public ResponseEntity<byte[]> exportExcel(@PathVariable UUID id) throws IOException {
     List<GraduateRowDto> rows = graduateService.rankPromotionForView(id);
     byte[] excel = excelExporter.toBytes(rows);
 
     return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"promotion-" + id + "-graduates.xlsx\"")
-            .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-            .body(excel);
+        .header(
+            HttpHeaders.CONTENT_DISPOSITION,
+            "attachment; filename=\"promotion-" + id + "-graduates.xlsx\"")
+        .contentType(
+            MediaType.parseMediaType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+        .body(excel);
   }
 }

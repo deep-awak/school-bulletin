@@ -1,9 +1,8 @@
 package api.poja.app.jpa;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.UUID;
+import lombok.*;
 
 @Entity
 @Table(name = "teacher")
@@ -13,8 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class TeacherEntity {
-  @Id
-  private String id;
+  @Id private String id;
 
   @Column(nullable = false)
   private String firstName;

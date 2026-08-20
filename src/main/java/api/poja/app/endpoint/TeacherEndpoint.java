@@ -1,15 +1,14 @@
 package api.poja.app.endpoint;
 
-import api.poja.app.dto.request.CreateTeacherRequest;
 import api.poja.app.dto.TeacherDto;
+import api.poja.app.dto.request.CreateTeacherRequest;
 import api.poja.app.mapper.TeacherMapper;
 import api.poja.app.service.TeacherService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/teachers")

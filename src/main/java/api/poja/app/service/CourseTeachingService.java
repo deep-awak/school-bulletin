@@ -13,8 +13,6 @@ import api.poja.app.repository.GroupRepository;
 import api.poja.app.repository.TeacherRepository;
 import api.poja.app.validator.AssignmentValidator;
 import java.util.List;
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
