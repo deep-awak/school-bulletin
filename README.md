@@ -914,7 +914,7 @@ log.info("grade.modified",
 
 ```java
 @Component
-@Scheduled(fixedRate = 60000)  // Toutes les minutes
+@Scheduled(fixedRate = 60000) 
 public void monitorEventQueue() {
   long failedCount = failedEventRepository.count();
   if (failedCount > 100) {
@@ -1013,14 +1013,6 @@ public void monitorEventQueue() {
 ## 📄 Licence
 
 Ce projet est une étude de cas académique PROG4/SYS3. Basé sur le template [Poja](https://poja.io).
-
----
-
-## 👥 Auteurs
-
-- **Template Poja**: [poja.io](https://poja.io)
-- **Implémentation académique**: Projet HEI Graduate Management (2024-2025)
-- **Reviewers**: [@nassaigael](https://github.com/nassaigael)
 
 ---
 
