@@ -2,12 +2,13 @@ package api.poja.app.security;
 
 import api.poja.app.exception.ForbiddenException;
 import api.poja.app.repository.CourseTeachingRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** Central place enforcing the STUDENT / TEACHER / ADMIN permission rules. */
+import java.util.UUID;
+
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccessGuard {
 
   private final CourseTeachingRepository courseTeachingRepository;
@@ -18,8 +19,7 @@ public class AccessGuard {
     }
   }
 
-  /** A student may only access their own data; teachers and admins are unrestricted here. */
-  public void requireSelfOrStaff(CurrentUser user, Long studentId) {
+  public void requireSelfOrStaff(CurrentUser user, String studentId) {
     if (user.isAdmin() || user.isTeacher()) {
       return;
     }
@@ -29,24 +29,17 @@ public class AccessGuard {
     throw new ForbiddenException("You can only access your own data");
   }
 
-  /**
-   * A teacher may only manage grades for a course they are actually assigned to teach, for the
-   * student's current group. Admins bypass this check.
-   */
-  public void requireCourseTeacherOrAdmin(
-      CurrentUser user, Long courseId, Long teacherGroupId) {
+  public void requireCourseTeacherOrAdmin(CurrentUser user, UUID courseId, String teacherGroupId) {
     if (user.isAdmin()) {
       return;
     }
     if (!user.isTeacher() || user.getTeacherId() == null) {
       throw new ForbiddenException("Only a teacher or an admin can modify grades");
     }
-    boolean isAssigned =
-        courseTeachingRepository.existsByTeacherIdAndCourseIdAndGroupId(
+    boolean isAssigned = courseTeachingRepository.existsByTeacherIdAndCourseIdAndGroupId(
             user.getTeacherId(), courseId, teacherGroupId);
     if (!isAssigned) {
-      throw new ForbiddenException(
-          "You are not assigned to teach this course to this student's group");
+      throw new ForbiddenException("You are not assigned to teach this course to this student's group");
     }
   }
 }
