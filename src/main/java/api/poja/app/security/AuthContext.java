@@ -33,4 +33,8 @@ public class AuthContext {
             .teacherId(user.getTeacherId())
             .build();
   }
+
+  public CurrentUser resolve(jakarta.servlet.http.HttpServletRequest request) {
+    return getCurrentUser();
+  }
 }
