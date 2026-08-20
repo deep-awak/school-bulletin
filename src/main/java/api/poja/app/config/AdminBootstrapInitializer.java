@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AdminBootstrapInitializer implements CommandLineRunner {
 
-	private final AdminBootstrapService adminBootstrapService;
+  private final AdminBootstrapService adminBootstrapService;
 
-	@Override
-	public void run(String... args) {
-		try {
-			adminBootstrapService.bootstrapAdminIfNeeded();
-		} catch (Exception e) {
-			log.error("Error during admin bootstrap: {}", e.getMessage(), e);
-		}
-	}
+  @Override
+  public void run(String... args) {
+    try {
+      adminBootstrapService.bootstrapAdminIfNeeded();
+    } catch (Exception e) {
+      log.error("Error during admin bootstrap: {}", e.getMessage(), e);
+    }
+  }
 }

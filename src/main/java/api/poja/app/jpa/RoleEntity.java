@@ -2,9 +2,8 @@ package api.poja.app.jpa;
 
 import api.poja.app.model.Role;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.UUID;
+import lombok.*;
 
 @Entity
 @Table(name = "role", uniqueConstraints = @UniqueConstraint(columnNames = "name"))

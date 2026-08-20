@@ -29,8 +29,7 @@ public class GroupService {
                 () ->
                     new ResourceNotFoundException(
                         "Promotion not found: " + request.getPromotionId()));
-    GroupEntity entity =
-        GroupEntity.builder().name(request.getName()).promotion(promotion).build();
+    GroupEntity entity = GroupEntity.builder().name(request.getName()).promotion(promotion).build();
     return GroupMapper.toModel(groupRepository.save(entity));
   }
 

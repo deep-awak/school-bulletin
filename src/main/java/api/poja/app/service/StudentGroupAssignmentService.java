@@ -10,7 +10,6 @@ import api.poja.app.repository.GroupRepository;
 import api.poja.app.repository.StudentGroupAssignmentRepository;
 import api.poja.app.repository.StudentRepository;
 import api.poja.app.validator.AssignmentValidator;
-
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -18,9 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Handles moving a student from one group to another while preserving full history: the
- * previously active assignment is closed (endDate set) and a new one is opened, instead of
- * mutating a plain Student -> Group reference.
+ * Handles moving a student from one group to another while preserving full history: the previously
+ * active assignment is closed (endDate set) and a new one is opened, instead of mutating a plain
+ * Student -> Group reference.
  */
 @Service
 @AllArgsConstructor
@@ -50,9 +49,10 @@ public class StudentGroupAssignmentService {
         assignmentRepository.findByStudentIdAndEndDateIsNull(student.getId());
     current.ifPresent(
         active -> {
-          active.setEndDate(request.getStartDate().minusDays(1).isBefore(active.getStartDate())
-              ? active.getStartDate()
-              : request.getStartDate().minusDays(1));
+          active.setEndDate(
+              request.getStartDate().minusDays(1).isBefore(active.getStartDate())
+                  ? active.getStartDate()
+                  : request.getStartDate().minusDays(1));
           assignmentRepository.save(active);
         });
 

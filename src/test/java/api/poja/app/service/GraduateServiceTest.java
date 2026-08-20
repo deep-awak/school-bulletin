@@ -34,18 +34,23 @@ class GraduateServiceTest {
 
   private GraduateService graduateService;
 
-  private final PromotionEntity promotion = PromotionEntity.builder().id(1L).name("Promo 2026").build();
+  private final PromotionEntity promotion =
+      PromotionEntity.builder().id(1L).name("Promo 2026").build();
   private final StudentEntity s1 =
       StudentEntity.builder().id(1L).std("HEI-1").firstName("Jean").lastName("Rakoto").build();
   private final StudentEntity s2 =
       StudentEntity.builder().id(2L).std("HEI-2").firstName("Marie").lastName("Rasoa").build();
-  private final CourseEntity course = CourseEntity.builder().id(9L).name("Algo").code("ALG1").build();
+  private final CourseEntity course =
+      CourseEntity.builder().id(9L).name("Algo").code("ALG1").build();
 
   @BeforeEach
   void setUp() {
     graduateService =
         new GraduateService(
-            promotionRepository, studentRepository, gradeRepository, new AccessGuard(courseTeachingRepository));
+            promotionRepository,
+            studentRepository,
+            gradeRepository,
+            new AccessGuard(courseTeachingRepository));
   }
 
   private CurrentUser admin() {

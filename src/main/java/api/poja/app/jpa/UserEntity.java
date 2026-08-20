@@ -1,9 +1,8 @@
 package api.poja.app.jpa;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.UUID;
+import lombok.*;
 
 @Entity
 @Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))

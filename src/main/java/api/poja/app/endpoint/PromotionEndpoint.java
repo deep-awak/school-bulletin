@@ -1,7 +1,7 @@
 package api.poja.app.endpoint;
 
-import api.poja.app.dto.request.CreatePromotionRequest;
 import api.poja.app.dto.PromotionDto;
+import api.poja.app.dto.request.CreatePromotionRequest;
 import api.poja.app.mapper.PromotionMapper;
 import api.poja.app.service.PromotionService;
 import java.util.List;

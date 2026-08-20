@@ -2,8 +2,8 @@ package api.poja.app.endpoint;
 
 import api.poja.app.dto.GraduateRowDto;
 import api.poja.app.excel.GraduateExcelExporter;
-import api.poja.app.service.GroupService;
 import api.poja.app.service.GraduateService;
+import api.poja.app.service.GroupService;
 import api.poja.app.service.PromotionService;
 import api.poja.app.service.StudentService;
 import java.io.IOException;
@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Minimal Thymeleaf UI (no login, no CSS framework): list promotions, drill into one, see its
  * students, and download the Excel export from the browser.
  *
- * <p>This view has no authentication of its own (out of scope for this exercise, see README), so
- * it cannot send the {@code X-User-Id} header the REST API requires. Its Excel download therefore
- * goes through {@link GraduateService#rankPromotionForView}, a role-check-free path meant only for
- * this controller - the REST endpoint under {@code /api/...} still enforces ADMIN.
+ * <p>This view has no authentication of its own (out of scope for this exercise, see README), so it
+ * cannot send the {@code X-User-Id} header the REST API requires. Its Excel download therefore goes
+ * through {@link GraduateService#rankPromotionForView}, a role-check-free path meant only for this
+ * controller - the REST endpoint under {@code /api/...} still enforces ADMIN.
  */
 @Controller
 @AllArgsConstructor
@@ -67,4 +67,3 @@ public class PromotionViewEndpoint {
         .body(excel);
   }
 }
-

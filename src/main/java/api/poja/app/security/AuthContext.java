@@ -8,8 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 @RequiredArgsConstructor
 public class AuthContext {
@@ -23,15 +21,17 @@ public class AuthContext {
     }
 
     String email = authentication.getName();
-    UserEntity user = userRepository.findByEmail(email)
+    UserEntity user =
+        userRepository
+            .findByEmail(email)
             .orElseThrow(() -> new UnauthorizedException("User not found: " + email));
 
     return CurrentUser.builder()
-            .userId(user.getId())
-            .role(user.getRole().getName())
-            .studentId(user.getStudentId())
-            .teacherId(user.getTeacherId())
-            .build();
+        .userId(user.getId())
+        .role(user.getRole().getName())
+        .studentId(user.getStudentId())
+        .teacherId(user.getTeacherId())
+        .build();
   }
 
   public CurrentUser resolve(jakarta.servlet.http.HttpServletRequest request) {

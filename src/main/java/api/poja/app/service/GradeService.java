@@ -25,9 +25,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Owns every grade mutation. Every change - including creation - appends an immutable
- * GradeHistory row so the full trail (old value, new value, reason, author, date) can always be
- * reconstructed; nothing is ever overwritten silently.
+ * Owns every grade mutation. Every change - including creation - appends an immutable GradeHistory
+ * row so the full trail (old value, new value, reason, author, date) can always be reconstructed;
+ * nothing is ever overwritten silently.
  */
 @Service
 @AllArgsConstructor

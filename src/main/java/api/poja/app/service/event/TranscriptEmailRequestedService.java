@@ -12,9 +12,9 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 /**
- * Consumer for {@link TranscriptEmailRequested}, invoked by the existing POJA worker mechanism
- * (see EventServiceInvoker). Reuses the pre-configured {@link Mailer} instead of building a
- * parallel email system.
+ * Consumer for {@link TranscriptEmailRequested}, invoked by the existing POJA worker mechanism (see
+ * EventServiceInvoker). Reuses the pre-configured {@link Mailer} instead of building a parallel
+ * email system.
  */
 @Service
 @AllArgsConstructor

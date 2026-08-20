@@ -24,6 +24,10 @@ public final class GroupMapper {
 
   public static GroupDto toDto(Group m) {
     if (m == null) return null;
-    return GroupDto.builder().id(m.getId()).name(m.getName()).promotionId(m.getPromotionId()).build();
+    return GroupDto.builder()
+        .id(m.getId())
+        .name(m.getName())
+        .promotionId(m.getPromotionId())
+        .build();
   }
 }

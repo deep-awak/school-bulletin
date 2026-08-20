@@ -34,9 +34,9 @@ public class GraduateService {
   }
 
   /**
-   * Same ranking, without the ADMIN check, for the unauthenticated Thymeleaf promotion page
-   * (see README: no login flow exists for that simple consultation UI). Never expose this
-   * through the REST API - only PromotionViewEndpoint should call it.
+   * Same ranking, without the ADMIN check, for the unauthenticated Thymeleaf promotion page (see
+   * README: no login flow exists for that simple consultation UI). Never expose this through the
+   * REST API - only PromotionViewEndpoint should call it.
    */
   public List<GraduateRowDto> rankPromotionForView(Long promotionId) {
     return rankPromotionUnchecked(promotionId);
@@ -59,11 +59,7 @@ public class GraduateService {
                     Collectors.averagingDouble(GradeEntity::getValue)));
 
     return students.stream()
-        .map(
-            s ->
-                new Object[] {
-                  s, averageByStudent.getOrDefault(s.getId(), 0d)
-                })
+        .map(s -> new Object[] {s, averageByStudent.getOrDefault(s.getId(), 0d)})
         .sorted(Comparator.comparingDouble((Object[] o) -> (Double) o[1]).reversed())
         .map(
             o -> {
@@ -81,8 +77,8 @@ public class GraduateService {
   }
 
   /**
-   * Admin-only view of several promotions' rankings side by side (e.g. the last 3 academic
-   * years), reusing {@link #rankPromotion}.
+   * Admin-only view of several promotions' rankings side by side (e.g. the last 3 academic years),
+   * reusing {@link #rankPromotion}.
    */
   public Map<Long, List<GraduateRowDto>> rankPromotions(
       List<Long> promotionIds, CurrentUser requester) {

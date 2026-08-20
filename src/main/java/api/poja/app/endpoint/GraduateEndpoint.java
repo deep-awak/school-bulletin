@@ -29,7 +29,9 @@ public class GraduateEndpoint {
     return graduateService.rankPromotion(promotionId, requester);
   }
 
-  @GetMapping(value = "/export", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+  @GetMapping(
+      value = "/export",
+      produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
   public ResponseEntity<byte[]> exportExcel(
       @PathVariable Long promotionId, HttpServletRequest httpRequest) throws IOException {
     var requester = authContext.resolve(httpRequest);

@@ -1,9 +1,8 @@
 package api.poja.app.security;
 
 import api.poja.app.model.Role;
-import lombok.*;
-
 import java.util.UUID;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor

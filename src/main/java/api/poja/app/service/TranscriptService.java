@@ -28,9 +28,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * Orchestrates transcript generation end to end: PDF -> S3 -> async email, per the flow imposed
- * by the project brief. The HTTP response only waits for PDF generation and upload; the email
- * itself is delegated to the existing POJA async mechanism.
+ * Orchestrates transcript generation end to end: PDF -> S3 -> async email, per the flow imposed by
+ * the project brief. The HTTP response only waits for PDF generation and upload; the email itself
+ * is delegated to the existing POJA async mechanism.
  */
 @Service
 @AllArgsConstructor
@@ -68,11 +68,11 @@ public class TranscriptService {
             .toList();
 
     Map<Long, Course> coursesById =
-        courseRepository.findAllById(grades.stream().map(Grade::getCourseId).distinct().toList())
+        courseRepository
+            .findAllById(grades.stream().map(Grade::getCourseId).distinct().toList())
             .stream()
             .collect(
-                Collectors.toMap(
-                    CourseEntity::getId, api.poja.app.mapper.CourseMapper::toModel));
+                Collectors.toMap(CourseEntity::getId, api.poja.app.mapper.CourseMapper::toModel));
 
     File pdf;
     try {
@@ -81,8 +81,7 @@ public class TranscriptService {
       throw new UncheckedIOException(e);
     }
 
-    String bucketKey =
-        "transcripts/" + student.getStd() + "/" + academicYear + "/transcript.pdf";
+    String bucketKey = "transcripts/" + student.getStd() + "/" + academicYear + "/transcript.pdf";
     String url = storageService.upload(pdf, bucketKey);
 
     return url;
@@ -101,8 +100,7 @@ public class TranscriptService {
             .findById(request.getStudentId())
             .orElseThrow(
                 () ->
-                    new ResourceNotFoundException(
-                        "Student not found: " + request.getStudentId()));
+                    new ResourceNotFoundException("Student not found: " + request.getStudentId()));
     Student student = api.poja.app.mapper.StudentMapper.toModel(studentEntity);
 
     String url = generateAndUpload(request.getStudentId(), request.getAcademicYear(), requester);
