@@ -2,6 +2,8 @@ package api.poja.app.dto.request;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -12,6 +14,6 @@ public class CreateStudentRequest {
   private String firstName;
   private String lastName;
   private String email;
-  private Long promotionId;
-  private Long groupId;
+  private UUID promotionId;
+  private String groupId;
 }
