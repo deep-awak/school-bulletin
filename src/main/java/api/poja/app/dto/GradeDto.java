@@ -1,7 +1,9 @@
 package api.poja.app.dto;
 
-import java.time.Instant;
 import lombok.*;
+
+import java.time.Instant;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -9,12 +11,12 @@ import lombok.*;
 @Getter
 @Setter
 public class GradeDto {
-  private Long id;
-  private Long studentId;
-  private Long courseId;
+  private UUID id;
+  private String studentId;
+  private UUID courseId;
   private String academicYear;
   private Double value;
-  private Long authorUserId;
+  private UUID authorUserId;
   private Instant createdAt;
   private Instant updatedAt;
 }
