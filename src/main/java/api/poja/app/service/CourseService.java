@@ -8,6 +8,8 @@ import api.poja.app.model.Course;
 import api.poja.app.repository.CourseRepository;
 import api.poja.app.validator.CourseValidator;
 import java.util.List;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class CourseService {
     return CourseMapper.toModel(courseRepository.save(entity));
   }
 
-  public Course getById(Long id) {
+  public Course getById(UUID id) {
     return CourseMapper.toModel(
         courseRepository
             .findById(id)
