@@ -7,6 +7,8 @@ import api.poja.app.mapper.CourseMapper;
 import api.poja.app.service.CourseService;
 import api.poja.app.service.CourseTeachingService;
 import java.util.List;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ public class CourseEndpoint {
   }
 
   @GetMapping("/{id}")
-  public CourseDto getById(@PathVariable Long id) {
+  public CourseDto getById(@PathVariable UUID id) {
     return CourseMapper.toDto(courseService.getById(id));
   }
 
