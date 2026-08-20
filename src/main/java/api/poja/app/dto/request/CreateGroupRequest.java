@@ -2,6 +2,8 @@ package api.poja.app.dto.request;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -9,5 +11,5 @@ import lombok.*;
 @Setter
 public class CreateGroupRequest {
   private String name;
-  private Long promotionId;
+  private UUID promotionId;
 }
