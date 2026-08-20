@@ -2,7 +2,6 @@ package api.poja.app.dto;
 
 import lombok.*;
 
-/** One row of a promotion's graduate ranking, used both by the API and the Excel export. */
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
