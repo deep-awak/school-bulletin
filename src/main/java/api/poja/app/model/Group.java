@@ -2,13 +2,15 @@ package api.poja.app.model;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
 @Setter
 public class Group {
-  private Long id;
+  private String id;
   private String name;
-  private Long promotionId;
+  private UUID promotionId;
 }
