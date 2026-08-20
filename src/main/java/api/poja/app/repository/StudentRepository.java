@@ -1,14 +1,12 @@
 package api.poja.app.repository;
 
 import api.poja.app.jpa.StudentEntity;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
-  List<StudentEntity> findByPromotionId(Long promotionId);
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-  Optional<StudentEntity> findByStd(String std);
-
-  Optional<StudentEntity> findByUserId(Long userId);
+public interface StudentRepository extends JpaRepository<StudentEntity, String> {
+  List<StudentEntity> findByPromotionId(UUID promotionId);
 }
