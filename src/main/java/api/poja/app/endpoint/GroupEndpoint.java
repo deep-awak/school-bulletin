@@ -1,7 +1,7 @@
 package api.poja.app.endpoint;
 
-import api.poja.app.dto.request.CreateGroupRequest;
 import api.poja.app.dto.GroupDto;
+import api.poja.app.dto.request.CreateGroupRequest;
 import api.poja.app.mapper.GroupMapper;
 import api.poja.app.service.GroupService;
 import lombok.RequiredArgsConstructor;

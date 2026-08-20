@@ -1,9 +1,5 @@
 package api.poja.app.mail;
 
-import static jakarta.mail.Message.RecipientType.BCC;
-import static jakarta.mail.Message.RecipientType.CC;
-import static jakarta.mail.Message.RecipientType.TO;
-
 import api.poja.app.PojaGenerated;
 import api.poja.app.file.zip.FileTyper;
 import jakarta.activation.DataHandler;
@@ -15,6 +11,12 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.util.ByteArrayDataSource;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.services.ses.model.RawMessage;
+import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +25,8 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
-import software.amazon.awssdk.core.SdkBytes;
-import software.amazon.awssdk.services.ses.model.RawMessage;
-import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
+
+import static jakarta.mail.Message.RecipientType.*;
 
 @PojaGenerated
 @Component

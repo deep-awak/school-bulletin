@@ -5,10 +5,6 @@ import api.poja.app.datastructure.ListGrouper;
 import api.poja.app.endpoint.event.model.PojaEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +16,11 @@ import software.amazon.awssdk.services.eventbridge.model.PutEventsRequest;
 import software.amazon.awssdk.services.eventbridge.model.PutEventsRequestEntry;
 import software.amazon.awssdk.services.eventbridge.model.PutEventsResponse;
 import software.amazon.awssdk.services.eventbridge.model.PutEventsResultEntry;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Consumer;
 
 @PojaGenerated
 @Component

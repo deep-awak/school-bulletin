@@ -1,9 +1,9 @@
 package api.poja.app.endpoint.event;
 
-import static java.lang.System.getenv;
-
 import api.poja.app.PojaGenerated;
 import lombok.Getter;
+
+import static java.lang.System.getenv;
 
 @PojaGenerated
 public enum EventStack {

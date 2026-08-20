@@ -1,11 +1,5 @@
 package api.poja.app.endpoint;
 
-import static api.poja.app.concurrency.ThreadRenamer.renameFrontalThread;
-import static api.poja.app.concurrency.ThreadRenamer.renameThread;
-import static java.lang.System.currentTimeMillis;
-import static java.lang.Thread.currentThread;
-import static java.util.stream.Collectors.joining;
-
 import api.poja.app.PojaGenerated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +10,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static api.poja.app.concurrency.ThreadRenamer.renameFrontalThread;
+import static api.poja.app.concurrency.ThreadRenamer.renameThread;
+import static java.lang.System.currentTimeMillis;
+import static java.lang.Thread.currentThread;
+import static java.util.stream.Collectors.joining;
 
 @PojaGenerated
 @Configuration

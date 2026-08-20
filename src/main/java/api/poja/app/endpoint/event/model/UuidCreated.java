@@ -2,13 +2,9 @@ package api.poja.app.endpoint.event.model;
 
 import api.poja.app.PojaGenerated;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
 import java.time.Duration;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @PojaGenerated
 @NoArgsConstructor

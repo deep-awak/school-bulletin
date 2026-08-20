@@ -1,18 +1,18 @@
 package api.poja.app.endpoint;
 
-import api.poja.app.dto.request.AssignCourseTeachingRequest;
 import api.poja.app.dto.CourseDto;
+import api.poja.app.dto.request.AssignCourseTeachingRequest;
 import api.poja.app.dto.request.CreateCourseRequest;
 import api.poja.app.mapper.CourseMapper;
 import api.poja.app.service.CourseService;
 import api.poja.app.service.CourseTeachingService;
-import java.util.List;
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/courses")

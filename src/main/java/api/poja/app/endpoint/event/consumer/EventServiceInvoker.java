@@ -2,9 +2,6 @@ package api.poja.app.endpoint.event.consumer;
 
 import api.poja.app.PojaGenerated;
 import api.poja.app.endpoint.event.consumer.model.TypedEvent;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +9,10 @@ import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Consumer;
 
 @PojaGenerated
 @AllArgsConstructor

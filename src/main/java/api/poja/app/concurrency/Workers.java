@@ -1,18 +1,19 @@
 package api.poja.app.concurrency;
 
-import static api.poja.app.concurrency.ThreadRenamer.getRandomSubThreadNamePrefixFrom;
-import static api.poja.app.concurrency.ThreadRenamer.renameThread;
-import static java.lang.Thread.currentThread;
-import static java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor;
-
 import api.poja.app.PojaGenerated;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Function;
-import org.springframework.stereotype.Component;
+
+import static api.poja.app.concurrency.ThreadRenamer.getRandomSubThreadNamePrefixFrom;
+import static api.poja.app.concurrency.ThreadRenamer.renameThread;
+import static java.lang.Thread.currentThread;
+import static java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor;
 
 @PojaGenerated
 @Component

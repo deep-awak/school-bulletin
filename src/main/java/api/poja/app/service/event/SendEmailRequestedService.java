@@ -4,11 +4,12 @@ import api.poja.app.endpoint.event.model.SendEmailRequested;
 import api.poja.app.mail.Email;
 import api.poja.app.mail.Mailer;
 import jakarta.mail.internet.InternetAddress;
-import java.util.List;
-import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 @Service
 @AllArgsConstructor

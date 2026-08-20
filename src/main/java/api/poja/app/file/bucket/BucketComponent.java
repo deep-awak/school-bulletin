@@ -1,13 +1,8 @@
 package api.poja.app.file.bucket;
 
-import static java.io.File.createTempFile;
-
 import api.poja.app.PojaGenerated;
 import api.poja.app.file.hash.FileHash;
 import api.poja.app.file.hash.FileHashAlgorithm;
-import java.io.File;
-import java.net.URL;
-import java.time.Duration;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -19,6 +14,12 @@ import software.amazon.awssdk.transfer.s3.model.FileDownload;
 import software.amazon.awssdk.transfer.s3.model.UploadDirectoryRequest;
 import software.amazon.awssdk.transfer.s3.model.UploadFileRequest;
 import software.amazon.awssdk.transfer.s3.progress.LoggingTransferListener;
+
+import java.io.File;
+import java.net.URL;
+import java.time.Duration;
+
+import static java.io.File.createTempFile;
 
 @PojaGenerated
 @Component

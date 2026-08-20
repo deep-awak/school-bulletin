@@ -5,11 +5,12 @@ import api.poja.app.mail.Email;
 import api.poja.app.mail.Mailer;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
-import java.util.List;
-import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Consumer for {@link TranscriptEmailRequested}, invoked by the existing POJA worker mechanism

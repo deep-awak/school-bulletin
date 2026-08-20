@@ -1,17 +1,11 @@
 package api.poja.app.endpoint.event.consumer.model;
 
-import static java.lang.Integer.parseInt;
-
 import api.poja.app.PojaGenerated;
 import api.poja.app.endpoint.event.EventConf;
 import api.poja.app.endpoint.event.model.PojaEvent;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent.SQSMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +13,13 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.ChangeMessageVisibilityRequest;
 import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+import static java.lang.Integer.parseInt;
 
 @PojaGenerated
 @Component

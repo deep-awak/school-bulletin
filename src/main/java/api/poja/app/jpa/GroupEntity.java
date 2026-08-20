@@ -3,8 +3,6 @@ package api.poja.app.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "student_group")
 @NoArgsConstructor

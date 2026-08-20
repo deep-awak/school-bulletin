@@ -1,8 +1,8 @@
 package api.poja.app.endpoint;
 
-import api.poja.app.dto.request.CreateGradeRequest;
 import api.poja.app.dto.GradeDto;
 import api.poja.app.dto.GradeHistoryDto;
+import api.poja.app.dto.request.CreateGradeRequest;
 import api.poja.app.dto.request.UpdateGradeRequest;
 import api.poja.app.mapper.GradeHistoryMapper;
 import api.poja.app.mapper.GradeMapper;

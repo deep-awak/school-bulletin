@@ -1,14 +1,15 @@
 package api.poja.app.endpoint.event.model;
 
-import static api.poja.app.endpoint.event.EventStack.EVENT_STACK_1;
-import static java.lang.Math.random;
-
 import api.poja.app.PojaGenerated;
 import api.poja.app.endpoint.event.EventStack;
-import java.io.Serializable;
-import java.time.Duration;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.Duration;
+
+import static api.poja.app.endpoint.event.EventStack.EVENT_STACK_1;
+import static java.lang.Math.random;
 
 @PojaGenerated
 public abstract class PojaEvent implements Serializable {

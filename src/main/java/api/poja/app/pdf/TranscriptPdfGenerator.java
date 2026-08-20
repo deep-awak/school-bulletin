@@ -4,18 +4,18 @@ import api.poja.app.model.Course;
 import api.poja.app.model.Grade;
 import api.poja.app.model.Promotion;
 import api.poja.app.model.Student;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class TranscriptPdfGenerator {
