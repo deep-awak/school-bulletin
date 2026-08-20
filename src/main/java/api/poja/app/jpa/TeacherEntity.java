@@ -3,6 +3,8 @@ package api.poja.app.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "teacher")
 @NoArgsConstructor
@@ -12,8 +14,7 @@ import lombok.*;
 @Setter
 public class TeacherEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @Column(nullable = false)
   private String firstName;
@@ -25,5 +26,5 @@ public class TeacherEntity {
   private String email;
 
   @Column(name = "user_id")
-  private Long userId;
+  private UUID userId;
 }
