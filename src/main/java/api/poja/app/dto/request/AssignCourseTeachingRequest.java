@@ -2,14 +2,16 @@ package api.poja.app.dto.request;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
 @Setter
 public class AssignCourseTeachingRequest {
-  private Long courseId;
-  private Long teacherId;
-  private Long groupId;
+  private UUID courseId;
+  private String teacherId;
+  private String groupId;
   private String academicYear;
 }
