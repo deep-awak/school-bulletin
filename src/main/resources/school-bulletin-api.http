@@ -1,5 +1,5 @@
 ### ============================================
-### 🔐 AUTHENTICATION
+### AUTHENTICATION
 ### ============================================
 
 ### Login ADMIN
@@ -14,9 +14,9 @@ Content-Type: application/json
 > {%
     if (response.status === 200) {
         client.global.set("access_token", response.body.token);
-        client.log("✅ Token ADMIN récupéré: " + response.body.token.substring(0, 20) + "...");
+        client.log("Token ADMIN retrieved: " + response.body.token.substring(0, 20) + "...");
     } else {
-        client.log("❌ Erreur login: " + response.status);
+        client.log("Login error: " + response.status);
     }
 %}
 
@@ -40,10 +40,10 @@ Content-Type: application/json
 
 
 ### ============================================
-### 📚 PROMOTIONS (ADMIN requis)
+### PROMOTIONS (ADMIN required)
 ### ============================================
 
-### Créer une promotion
+### Create promotion
 POST http://localhost:8080/api/promotions
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -57,24 +57,24 @@ Content-Type: application/json
 > {%
     if (response.status === 201) {
         client.global.set("promotionId", response.body.id);
-        client.log("✅ Promotion créée avec ID: " + response.body.id);
+        client.log("Promotion created with ID: " + response.body.id);
     }
 %}
 
-### Lister toutes les promotions
+### List all promotions
 GET http://localhost:8080/api/promotions
 Authorization: Bearer {{access_token}}
 
-### Récupérer une promotion par ID
+### Get promotion by ID
 GET http://localhost:8080/api/promotions/{{promotionId}}
 Authorization: Bearer {{access_token}}
 
 
 ### ============================================
-### 👥 GROUPS (ADMIN requis)
+### GROUPS (ADMIN required)
 ### ============================================
 
-### Créer un groupe
+### Create group
 POST http://localhost:8080/api/groups
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -87,24 +87,24 @@ Content-Type: application/json
 > {%
     if (response.status === 201) {
         client.global.set("groupId", response.body.id);
-        client.log("✅ Groupe créé avec ID: " + response.body.id);
+        client.log("Group created with ID: " + response.body.id);
     }
 %}
 
-### Lister les groupes d'une promotion
+### List groups by promotion
 GET http://localhost:8080/api/groups?promotionId={{promotionId}}
 Authorization: Bearer {{access_token}}
 
-### Récupérer un groupe par ID
+### Get group by ID
 GET http://localhost:8080/api/groups/{{groupId}}
 Authorization: Bearer {{access_token}}
 
 
 ### ============================================
-### 👨‍🏫 TEACHERS (ADMIN requis)
+### TEACHERS (ADMIN required)
 ### ============================================
 
-### Créer un enseignant
+### Create teacher
 POST http://localhost:8080/api/teachers
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -118,24 +118,24 @@ Content-Type: application/json
 > {%
     if (response.status === 201) {
         client.global.set("teacherId", response.body.id);
-        client.log("✅ Enseignant créé avec ID: " + response.body.id);
+        client.log("Teacher created with ID: " + response.body.id);
     }
 %}
 
-### Lister tous les enseignants
+### List all teachers
 GET http://localhost:8080/api/teachers
 Authorization: Bearer {{access_token}}
 
-### Récupérer un enseignant par ID
+### Get teacher by ID
 GET http://localhost:8080/api/teachers/{{teacherId}}
 Authorization: Bearer {{access_token}}
 
 
 ### ============================================
-### 📖 COURSES (ADMIN requis)
+### COURSES (ADMIN required)
 ### ============================================
 
-### Créer un cours
+### Create course
 POST http://localhost:8080/api/courses
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -148,19 +148,19 @@ Content-Type: application/json
 > {%
     if (response.status === 201) {
         client.global.set("courseId", response.body.id);
-        client.log("✅ Cours créé avec ID: " + response.body.id);
+        client.log("Course created with ID: " + response.body.id);
     }
 %}
 
-### Lister tous les cours
+### List all courses
 GET http://localhost:8080/api/courses
 Authorization: Bearer {{access_token}}
 
-### Récupérer un cours par ID
+### Get course by ID
 GET http://localhost:8080/api/courses/{{courseId}}
 Authorization: Bearer {{access_token}}
 
-### Affecter enseignant à cours/groupe
+### Assign teacher to course/group
 POST http://localhost:8080/api/courses/teaching-assignments
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -174,10 +174,10 @@ Content-Type: application/json
 
 
 ### ============================================
-### 👨‍🎓 STUDENTS (ADMIN requis)
+### STUDENTS (ADMIN required)
 ### ============================================
 
-### Créer un étudiant
+### Create student
 POST http://localhost:8080/api/students
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -194,19 +194,19 @@ Content-Type: application/json
 > {%
     if (response.status === 201) {
         client.global.set("studentId", response.body.id);
-        client.log("✅ Étudiant créé avec ID: " + response.body.id);
+        client.log("Student created with ID: " + response.body.id);
     }
 %}
 
-### Lister les étudiants d'une promotion
+### List students by promotion
 GET http://localhost:8080/api/students?promotionId={{promotionId}}
 Authorization: Bearer {{access_token}}
 
-### Récupérer un étudiant par ID
+### Get student by ID
 GET http://localhost:8080/api/students/{{studentId}}
 Authorization: Bearer {{access_token}}
 
-### Réaffecter un étudiant à un nouveau groupe
+### Reassign student to a new group
 POST http://localhost:8080/api/students/group-assignments
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -217,16 +217,16 @@ Content-Type: application/json
   "startDate": "2025-09-01"
 }
 
-### Historique des groupes d'un étudiant
+### Get student group history
 GET http://localhost:8080/api/students/{{studentId}}/group-history
 Authorization: Bearer {{access_token}}
 
 
 ### ============================================
-### 📊 GRADES (TEACHER ou ADMIN)
+### GRADES (TEACHER or ADMIN)
 ### ============================================
 
-### Ajouter une note
+### Create grade
 POST http://localhost:8080/api/grades
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -241,55 +241,55 @@ Content-Type: application/json
 > {%
     if (response.status === 201) {
         client.global.set("gradeId", response.body.id);
-        client.log("✅ Note créée avec ID: " + response.body.id);
+        client.log("Grade created with ID: " + response.body.id);
     }
 %}
 
-### Lister les notes d'un étudiant
+### List grades by student
 GET http://localhost:8080/api/grades?studentId={{studentId}}
 Authorization: Bearer {{access_token}}
 
-### Modifier une note (raison obligatoire)
+### Update grade (reason required)
 PATCH http://localhost:8080/api/grades/{{gradeId}}
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
   "value": 16.0,
-  "reason": "Correction après réclamation de l'étudiant"
+  "reason": "Correction after student complaint"
 }
 
-### Historique des modifications d'une note
+### Get grade modification history
 GET http://localhost:8080/api/grades/{{gradeId}}/history
 Authorization: Bearer {{access_token}}
 
 
 ### ============================================
-### 🎓 GRADUATES (ADMIN requis)
+### GRADUATES (ADMIN required)
 ### ============================================
 
-### Classement des diplômés d'une promotion
+### Get graduate ranking by promotion
 GET http://localhost:8080/api/promotions/{{promotionId}}/graduates
 Authorization: Bearer {{access_token}}
 
-### Export Excel du classement
+### Export ranking to Excel
 GET http://localhost:8080/api/promotions/{{promotionId}}/graduates/export
 Authorization: Bearer {{access_token}}
 
-### Classement multi-promotions - 3 ans
+### Multi-promotion ranking - 3 years
 GET http://localhost:8080/api/promotions/{{promotionId}}/graduates/results?promotionIds={{promotionId}}
 Authorization: Bearer {{access_token}}
 
 
 ### ============================================
-### 📄 TRANSCRIPTS
+### TRANSCRIPTS
 ### ============================================
 
-### Générer un relevé PDF (retourne URL S3)
+### Generate PDF transcript (returns S3 URL)
 POST http://localhost:8080/api/transcripts/generate?studentId={{studentId}}&academicYear=2025-2026
 Authorization: Bearer {{access_token}}
 
-### Envoyer un relevé par email (asynchrone POJA)
+### Send transcript by email (async POJA)
 POST http://localhost:8080/api/transcripts/send
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -301,21 +301,21 @@ Content-Type: application/json
 
 
 ### ============================================
-### 🔒 SECURITY TESTS (401/403)
+### SECURITY TESTS (401/403)
 ### ============================================
 
-### Accès sans token - 401 Unauthorized
+### Access without token - 401 Unauthorized
 GET http://localhost:8080/api/students
 
-### Token invalide - 401 Unauthorized
+### Invalid token - 401 Unauthorized
 GET http://localhost:8080/api/students
 Authorization: Bearer invalid.token.here
 
-### STUDENT accède à un autre étudiant - 403 Forbidden
+### STUDENT accesses another student - 403 Forbidden
 GET http://localhost:8080/api/students/STD99999
 Authorization: Bearer {{access_token}}
 
-### STUDENT modifie une note - 403 Forbidden
+### STUDENT modifies a grade - 403 Forbidden
 PATCH http://localhost:8080/api/grades/{{gradeId}}
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -325,7 +325,7 @@ Content-Type: application/json
   "reason": "Test"
 }
 
-### STUDENT crée un enseignant - 403 Forbidden
+### STUDENT creates a teacher - 403 Forbidden
 POST http://localhost:8080/api/teachers
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -336,7 +336,7 @@ Content-Type: application/json
   "email": "test.forbidden@hei.mg"
 }
 
-### TEACHER crée un étudiant - 403 Forbidden
+### TEACHER creates a student - 403 Forbidden
 POST http://localhost:8080/api/students
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -350,20 +350,20 @@ Content-Type: application/json
   "groupId": "{{groupId}}"
 }
 
-### TEACHER accède aux diplômés - 403 Forbidden
+### TEACHER accesses graduates - 403 Forbidden
 GET http://localhost:8080/api/promotions/{{promotionId}}/graduates
 Authorization: Bearer {{access_token}}
 
 
 ### ============================================
-### 🌐 THYMELEAF (sans authentification)
+### THYMELEAF (no authentication)
 ### ============================================
 
-### Page listant les promotions
+### Promotions list page
 GET http://localhost:8080/promotions
 
-### Page détail d'une promotion
+### Promotion detail page
 GET http://localhost:8080/promotions/{{promotionId}}
 
-### Export Excel depuis Thymeleaf
+### Excel export from Thymeleaf
 GET http://localhost:8080/promotions/{{promotionId}}/export
